@@ -1,15 +1,14 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { installDone, onboardingDone } from '../lib/onboardingFlags'
+import { onboardingDone } from '../lib/onboardingFlags'
 import { MAIN_CONTENT_ID } from './SkipToMainContent'
 
 /**
  * Guarda de rutas autenticadas. Gestiona también las redirecciones del flujo
- * de incorporación (onboarding → login → instalar → app).
+ * de incorporación (onboarding → login → app).
  */
 export function RequireAuth() {
   const { session, loading, initError } = useAuth()
-  const location = useLocation()
 
   if (loading) {
     return (
@@ -40,11 +39,6 @@ export function RequireAuth() {
     return onboardingDone()
       ? <Navigate to="/login" replace />
       : <Navigate to="/onboarding/1" replace />
-  }
-
-  // Con sesión: mostrar pantalla de instalación la primera vez (excepto si ya estamos en ella)
-  if (!installDone() && location.pathname !== '/instalar') {
-    return <Navigate to="/instalar" replace />
   }
 
   return <Outlet />

@@ -93,6 +93,7 @@ html[data-theme='dark'] .home-theme-toggle-thumb {
   color: var(--color-primary);
 }
 
+.home-install-btn,
 .home-feedback-btn {
   display: flex;
   align-items: center;
@@ -113,12 +114,14 @@ html[data-theme='dark'] .home-theme-toggle-thumb {
     box-shadow 0.15s ease;
 }
 
+.home-install-btn:hover,
 .home-feedback-btn:hover {
   border-color: var(--color-primary);
   transform: scale(1.04);
   box-shadow: 0 4px 18px rgba(245, 166, 35, 0.2);
 }
 
+.home-install-btn:focus-visible,
 .home-feedback-btn:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
@@ -213,6 +216,7 @@ html[data-theme='dark'] .home-theme-toggle-thumb {
 }
 
 
+  html[data-theme="dark"] .home-install-btn,
   html[data-theme="dark"] .home-feedback-btn {
     background: var(--color-surface);
   }

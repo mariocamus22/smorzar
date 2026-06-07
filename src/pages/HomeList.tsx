@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useInstallPrompt } from '../hooks/useInstallPrompt'
+import { InstallModal } from '../components/InstallModal'
 import type { User } from '@supabase/supabase-js'
 import { useAuth } from '../hooks/useAuth'
 import { useTheme } from '../hooks/useTheme'
@@ -117,147 +118,12 @@ function IconBowlEmpty() {
   )
 }
 
-/** Burbuja de mensaje + idea: sugiere opiniones y mejoras. */
-function IconFeedback() {
+function IconDownload() {
   return (
-    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M8 10h8M8 14h5"
-        stroke="currentColor"
-        strokeWidth="1.85"
-        strokeLinecap="round"
-      />
-      <path
-        d="M6.5 18.5L5 21l3.2-.9c.9.5 1.9.8 3 .9h4.1c2.5 0 4.5-2 4.5-4.5v-6C20 7.5 18 5.5 15.5 5.5H8.5C6 5.5 4 7.5 4 10v6c0 .9.3 1.7.8 2.4z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M18.5 3.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3 1-2z"
-        fill="currentColor"
-        opacity={0.92}
-      />
+    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M12 3v13M7 11l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M5 21h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
     </svg>
-  )
-}
-
-type FeedbackModalProps = {
-  open: boolean
-  onClose: () => void
-}
-
-function FeedbackModal({ open, onClose }: FeedbackModalProps) {
-  const titleId = useId()
-  const descId = useId()
-  const fieldId = useId()
-  const dialogRef = useRef<HTMLDivElement>(null)
-  const taRef = useRef<HTMLTextAreaElement>(null)
-  const [text, setText] = useState('')
-  const [shake, setShake] = useState(false)
-
-  useFocusTrap(dialogRef, { active: open, initialFocusRef: taRef })
-
-  useEffect(() => {
-    if (!open) return
-    const t1 = window.setTimeout(() => {
-      setText('')
-    }, 0)
-    return () => {
-      window.clearTimeout(t1)
-    }
-  }, [open])
-
-  useEffect(() => {
-    if (!open) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.body.style.overflow = prev
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [open, onClose])
-
-  const send = useCallback(() => {
-    const trimmed = text.trim()
-    if (!trimmed) {
-      setShake(true)
-      window.setTimeout(() => setShake(false), 450)
-      taRef.current?.focus()
-      return
-    }
-    const to = (import.meta.env.VITE_FEEDBACK_EMAIL as string | undefined)?.trim()
-    const subject = encodeURIComponent('Esmorzapp — Feedback')
-    const body = encodeURIComponent(trimmed)
-    const href = to
-      ? `mailto:${encodeURIComponent(to)}?subject=${subject}&body=${body}`
-      : `mailto:?subject=${subject}&body=${body}`
-    window.location.href = href
-    onClose()
-  }, [text, onClose])
-
-  if (!open) return null
-
-  return (
-    <div className="feedback-modal-root" role="presentation">
-      <button
-        type="button"
-        className="feedback-modal-backdrop"
-        aria-label="Cerrar"
-        tabIndex={-1}
-        onClick={onClose}
-      />
-      <div
-        ref={dialogRef}
-        className="feedback-modal-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={descId}
-      >
-        <div className="feedback-modal-head">
-          <div className="feedback-modal-head-text">
-            <h2 id={titleId} className="feedback-modal-title">
-              Cuéntanos qué mejorarías
-            </h2>
-            <p id={descId} className="feedback-modal-desc">
-              Ideas, fallos que hayas visto o cualquier sugerencia nos ayuda a pulir Esmorzapp.
-            </p>
-          </div>
-          <button type="button" className="feedback-modal-close" onClick={onClose} aria-label="Cerrar">
-            ×
-          </button>
-        </div>
-        <label className="feedback-modal-label" htmlFor={fieldId}>
-          <span className="feedback-modal-label-text">Tu mensaje</span>
-          <textarea
-            ref={taRef}
-            id={fieldId}
-            className={`feedback-modal-textarea ${shake ? 'feedback-modal-textarea--shake' : ''}`}
-            rows={5}
-            placeholder="Por ejemplo: me gustaría poder filtrar por bar, o el botón X no responde en…"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        </label>
-        <div className="feedback-modal-actions">
-          <button type="button" className="btn btn-ghost feedback-modal-btn-secondary" onClick={onClose}>
-            Cancelar
-          </button>
-          <button type="button" className="btn btn-primary feedback-modal-btn-primary" onClick={send}>
-            Enviar con el correo
-          </button>
-        </div>
-        <p className="feedback-modal-footnote">
-          Se abrirá tu app de correo con el mensaje listo. Si no tienes cuenta configurada, copia el
-          texto antes de cerrar.
-        </p>
-      </div>
-    </div>
   )
 }
 
@@ -527,7 +393,8 @@ export function HomeList() {
   const [items, setItems] = useState<Almuerzo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [feedbackOpen, setFeedbackOpen] = useState(false)
+  const [installOpen, setInstallOpen] = useState(false)
+  const { isPwa } = useInstallPrompt()
   const [levels, setLevels] = useState<LevelRow[]>([])
   const [levelsReady, setLevelsReady] = useState(false)
   const [recentViewMode, setRecentViewMode] = useState<RecentViewMode>(() => readStoredRecentView())
@@ -662,7 +529,7 @@ export function HomeList() {
         onClose={dismissFirstAlmuerzoCelebration}
         levelLabel={profile?.level?.label}
       />
-      <FeedbackModal open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
+      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
 
       <header className="home-top-bar">
         <div className="home-brand">
@@ -683,17 +550,27 @@ export function HomeList() {
               <span className="home-theme-toggle-thumb" />
             </span>
           </button>
-          <button
-            type="button"
-            className="home-feedback-btn"
-            onClick={() => setFeedbackOpen(true)}
-            aria-label="Enviar opiniones o informar de un problema"
-            title="Tu opinión nos ayuda a mejorar"
-          >
-            <IconFeedback />
-          </button>
+          {!isPwa && (
+            <button
+              type="button"
+              className="home-install-btn"
+              onClick={() => setInstallOpen(true)}
+              aria-label="Instalar aplicación"
+              title="Instalar Esmorzapp en tu móvil"
+            >
+              <IconDownload />
+            </button>
+          )}
         </div>
       </header>
+      {!isPwa && (
+        <div className="install-nudge" role="complementary">
+          <span className="install-nudge-text">📲 Instala la app para una mejor experiencia</span>
+          <button type="button" className="install-nudge-btn" onClick={() => setInstallOpen(true)}>
+            Instalar
+          </button>
+        </div>
+      )}
 
       <h1 className="home-greeting">¿Dónde toca almorzar hoy, {nom}?</h1>
 

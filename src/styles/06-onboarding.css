@@ -755,3 +755,93 @@
   color: var(--color-fg-muted);
   text-align: center;
 }
+
+/* ——— Install nudge banner ——— */
+.install-nudge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0.6rem var(--space-5);
+  background: var(--color-primary);
+  color: #fff;
+}
+.install-nudge-text {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.install-nudge-btn {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  cursor: pointer;
+}
+
+/* ——— Install modal ——— */
+.install-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.install-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.install-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 1.5rem var(--space-5) 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.install-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.install-modal-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.install-modal-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-fg-subtle);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.install-modal-desc {
+  margin: 0;
+  font-size: var(--text-md);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+}
+.install-modal-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: var(--text-md);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+}
+.install-modal-cta {
+  width: 100%;
+}
