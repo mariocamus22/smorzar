@@ -9,14 +9,13 @@ import { AlmuerzoForm } from './pages/AlmuerzoForm'
 import { AlmuerzoDetail } from './pages/AlmuerzoDetail'
 import { LoginPage } from './pages/LoginPage'
 import { OnboardingScreen1, OnboardingScreen2 } from './pages/OnboardingPage'
-import { InstallPage } from './pages/InstallPage'
 import './styles/entry.css'
 
 /**
  * Raíz de la app: rutas públicas (onboarding, login) y rutas protegidas (CRUD almuerzos).
  *
  * Flujo de primera visita:
- *   /onboarding/1 → /onboarding/2 → /login → (magic link) → /instalar → /
+ *   /onboarding/1 → /onboarding/2 → /login → (magic link) → /
  */
 function App() {
   return (
@@ -33,8 +32,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             {/* Rutas protegidas */}
             <Route element={<RequireAuth />}>
-              <Route path="/instalar" element={<InstallPage />} />
-              <Route path="/" element={<HomeList />} />
+<Route path="/" element={<HomeList />} />
               <Route path="/nuevo" element={<AlmuerzoForm mode="create" />} />
               <Route path="/almuerzo/:id" element={<AlmuerzoDetail />} />
               <Route path="/almuerzo/:id/editar" element={<AlmuerzoForm mode="edit" />} />
