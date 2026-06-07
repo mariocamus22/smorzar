@@ -64,6 +64,10 @@ function isIosSafari(): boolean {
   return /iP(hone|ad|od)/.test(ua) && /WebKit/.test(ua) && !/CriOS|FxiOS|OPiOS|mercury/.test(ua)
 }
 
+function isAndroid(): boolean {
+  return /Android/.test(navigator.userAgent)
+}
+
 export function InstallPage() {
   const navigate = useNavigate()
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
@@ -127,6 +131,7 @@ export function InstallPage() {
   }
 
   const iosMode = isIosSafari()
+  const androidMode = isAndroid() && !iosMode
 
   /* ── Pantalla "busca tu app" ── */
   if (searchHint) {
@@ -138,12 +143,17 @@ export function InstallPage() {
           </div>
           <span className="install-icon-label">Esmorzapp</span>
         </div>
-        <h1 className="onboarding-headline install-headline">¡Ahora búscala en tus apps!</h1>
+        <h1 className="onboarding-headline install-headline">¡Ya casi está!</h1>
         <p className="onboarding-subhead">
-          Esmorzapp ya está instalada. Búscala entre las aplicaciones de tu móvil y ábrela desde ahí para usarla sin el navegador.
+          {androidMode
+            ? 'Desliza hacia arriba desde tu pantalla de inicio para ver el cajón de apps, o búscala por nombre. Esmorzapp aparece como cualquier otra aplicación.'
+            : 'Búscala entre las aplicaciones de tu móvil y ábrela desde ahí para usarla sin el navegador.'}
         </p>
         <div className="install-search-hint" aria-hidden>
-          <span className="install-search-hint-icon">📱</span>
+          <span className="install-search-hint-icon">{androidMode ? '👆' : '📱'}</span>
+          {androidMode && (
+            <p className="install-search-hint-label">Desliza hacia arriba para ver tus apps</p>
+          )}
         </div>
         <div className="onboarding-footer install-footer">
           <button type="button" className="onboarding-cta" onClick={handleGoApp}>
@@ -153,6 +163,57 @@ export function InstallPage() {
       </main>
     )
   }
+
+  /* Pasos manuales según plataforma */
+  const manualSteps = iosMode ? (
+    <div className="install-steps">
+      <div className="install-step">
+        <span className="install-step-icon"><IconShare /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Pulsa el botón Compartir</span>
+          <span className="install-step-desc">El icono <strong>↑</strong> en la barra inferior de Safari</span>
+        </div>
+      </div>
+      <div className="install-step">
+        <span className="install-step-icon"><IconPlus /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Elige «Añadir a pantalla de inicio»</span>
+          <span className="install-step-desc">Desplázate en el menú hasta encontrar la opción</span>
+        </div>
+      </div>
+      <div className="install-step">
+        <span className="install-step-icon install-step-icon--check"><IconCheck /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Confirma pulsando «Añadir»</span>
+          <span className="install-step-desc">Aparecerá el icono de Esmorzapp en tu pantalla de inicio</span>
+        </div>
+      </div>
+    </div>
+  ) : androidMode ? (
+    <div className="install-steps">
+      <div className="install-step">
+        <span className="install-step-icon"><IconShare /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Pulsa el menú ⋮ del navegador</span>
+          <span className="install-step-desc">Los tres puntos en la esquina superior derecha de Chrome</span>
+        </div>
+      </div>
+      <div className="install-step">
+        <span className="install-step-icon"><IconPlus /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Selecciona «Instalar app» o «Añadir a pantalla de inicio»</span>
+          <span className="install-step-desc">Puede aparecer también como «Añadir a inicio»</span>
+        </div>
+      </div>
+      <div className="install-step">
+        <span className="install-step-icon install-step-icon--check"><IconCheck /></span>
+        <div className="install-step-text">
+          <span className="install-step-title">Confirma pulsando «Instalar»</span>
+          <span className="install-step-desc">La app aparecerá en tu cajón de aplicaciones</span>
+        </div>
+      </div>
+    </div>
+  ) : null
 
   return (
     <main id={MAIN_CONTENT_ID} className="page onboarding-page install-page">
@@ -165,44 +226,13 @@ export function InstallPage() {
       </div>
 
       <h1 className="onboarding-headline install-headline">
-        Añade Esmorzapp a tu pantalla de inicio
+        Añade Esmorzapp a tu móvil
       </h1>
       <p className="onboarding-subhead">
-        Accede como una app nativa, sin barras del navegador y con acceso rápido desde tu móvil.
+        Accede como una app nativa, sin barras del navegador y con acceso rápido desde tu pantalla de inicio.
       </p>
 
-      {/* Install steps for iOS Safari */}
-      {iosMode && (
-        <div className="install-steps">
-          <div className="install-step">
-            <span className="install-step-icon">
-              <IconShare />
-            </span>
-            <div className="install-step-text">
-              <span className="install-step-title">Pulsa el botón Compartir</span>
-              <span className="install-step-desc">El icono <strong>↑</strong> en la barra inferior de Safari</span>
-            </div>
-          </div>
-          <div className="install-step">
-            <span className="install-step-icon">
-              <IconPlus />
-            </span>
-            <div className="install-step-text">
-              <span className="install-step-title">Elige «Añadir a pantalla de inicio»</span>
-              <span className="install-step-desc">Desplázate en el menú hasta encontrar la opción</span>
-            </div>
-          </div>
-          <div className="install-step">
-            <span className="install-step-icon install-step-icon--check">
-              <IconCheck />
-            </span>
-            <div className="install-step-text">
-              <span className="install-step-title">Confirma pulsando «Añadir»</span>
-              <span className="install-step-desc">Aparecerá el icono de Esmorzapp en tu pantalla de inicio</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {manualSteps}
 
       <div className="onboarding-footer install-footer">
         {canInstall ? (
@@ -214,7 +244,7 @@ export function InstallPage() {
               Ahora no
             </button>
           </>
-        ) : iosMode ? (
+        ) : (iosMode || androidMode) ? (
           <>
             <button type="button" className="onboarding-cta" onClick={handleIosInstalled}>
               Ya la he instalado
