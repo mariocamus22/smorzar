@@ -8,6 +8,7 @@ import { HomeList } from './pages/HomeList'
 import { AlmuerzoForm } from './pages/AlmuerzoForm'
 import { AlmuerzoDetail } from './pages/AlmuerzoDetail'
 import { LoginPage } from './pages/LoginPage'
+import { OnboardingScreen1 } from './pages/OnboardingPage'
 import './styles/entry.css'
 
 /**
@@ -22,6 +23,7 @@ function App() {
         <div className="app-shell">
           <SkipToMainContent />
           <Routes>
+            <Route path="/onboarding" element={<OnboardingScreen1 onNext={() => {}} />} />
             <Route path="/login" element={<LoginPage />} />
             <Route element={<RequireAuth />}>
               <Route path="/" element={<HomeList />} />
