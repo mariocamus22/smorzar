@@ -126,11 +126,16 @@ export function LoginPage() {
       </header>
 
       {sent ? (
-        <div className="banner banner-warn" role="status">
-          <p>
-            Revisa tu bandeja de entrada (y spam). Abre el enlace del correo para entrar en Esmorzapp.
+        <div className="login-sent" role="status">
+          <div className="login-sent-icon" aria-hidden>📬</div>
+          <h2 className="login-sent-title">Ve a tu correo para acceder</h2>
+          <p className="login-sent-desc">
+            Hemos enviado un enlace a <strong>{email}</strong>.<br />
+            Ábrelo y entrarás directamente en Esmorzapp.
           </p>
-          <p className="small muted login-hint">Puedes cerrar esta pestaña después.</p>
+          <p className="login-sent-hint">
+            No lo encuentras? Mira también en la carpeta de spam.
+          </p>
         </div>
       ) : (
         <form className="stack-form" onSubmit={onSubmit}>

@@ -69,6 +69,7 @@ export function InstallPage() {
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
   const [canInstall, setCanInstall] = useState(false)
   const [installed, setInstalled] = useState(false)
+  const [searchHint, setSearchHint] = useState(false)
 
   useEffect(() => {
     if (isRunningAsPwa()) {
@@ -87,6 +88,7 @@ export function InstallPage() {
 
     const appInstalled = () => {
       setInstalled(true)
+      setSearchHint(true)
       markInstallDone()
     }
     window.addEventListener('appinstalled', appInstalled)
@@ -100,12 +102,21 @@ export function InstallPage() {
   function handleInstall() {
     if (deferredPrompt.current) {
       void deferredPrompt.current.prompt()
-      void deferredPrompt.current.userChoice.then(() => {
+      void deferredPrompt.current.userChoice.then((choice) => {
         deferredPrompt.current = null
         markInstallDone()
-        navigate('/', { replace: true })
+        if (choice.outcome === 'accepted') {
+          setSearchHint(true)
+        } else {
+          navigate('/', { replace: true })
+        }
       })
     }
+  }
+
+  function handleIosInstalled() {
+    markInstallDone()
+    setSearchHint(true)
   }
 
   function handleSkip() {
@@ -113,7 +124,37 @@ export function InstallPage() {
     navigate('/', { replace: true })
   }
 
+  function handleGoApp() {
+    navigate('/', { replace: true })
+  }
+
   const iosMode = isIosSafari()
+
+  /* ── Pantalla "busca tu app" ── */
+  if (searchHint) {
+    return (
+      <main id={MAIN_CONTENT_ID} className="page onboarding-page install-page">
+        <div className="install-icon-wrap">
+          <div className="install-icon">
+            <IconCroissant />
+          </div>
+          <span className="install-icon-label">Esmorzapp</span>
+        </div>
+        <h1 className="onboarding-headline install-headline">¡Ahora búscala en tus apps!</h1>
+        <p className="onboarding-subhead">
+          Esmorzapp ya está instalada. Búscala entre las aplicaciones de tu móvil y ábrela desde ahí para usarla sin el navegador.
+        </p>
+        <div className="install-search-hint" aria-hidden>
+          <span className="install-search-hint-icon">📱</span>
+        </div>
+        <div className="onboarding-footer install-footer">
+          <button type="button" className="onboarding-cta" onClick={handleGoApp}>
+            Entrar en la app
+          </button>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main id={MAIN_CONTENT_ID} className="page onboarding-page install-page">
@@ -126,16 +167,14 @@ export function InstallPage() {
       </div>
 
       <h1 className="onboarding-headline install-headline">
-        {installed ? '¡Ya tienes Esmorzapp instalada!' : 'Añade Esmorzapp a tu pantalla de inicio'}
+        Añade Esmorzapp a tu pantalla de inicio
       </h1>
       <p className="onboarding-subhead">
-        {installed
-          ? 'Accede directamente desde tu móvil, sin pasar por el navegador.'
-          : 'Accede como una app nativa, sin barras del navegador y con acceso rápido desde tu móvil.'}
+        Accede como una app nativa, sin barras del navegador y con acceso rápido desde tu móvil.
       </p>
 
       {/* Install steps for iOS Safari */}
-      {iosMode && !installed && (
+      {iosMode && (
         <div className="install-steps">
           <div className="install-step">
             <span className="install-step-icon">
@@ -168,11 +207,7 @@ export function InstallPage() {
       )}
 
       <div className="onboarding-footer install-footer">
-        {installed ? (
-          <button type="button" className="onboarding-cta" onClick={handleSkip}>
-            Ir a la app
-          </button>
-        ) : canInstall ? (
+        {canInstall ? (
           <>
             <button type="button" className="onboarding-cta" onClick={handleInstall}>
               Instalar app
@@ -181,13 +216,20 @@ export function InstallPage() {
               Ahora no
             </button>
           </>
+        ) : iosMode ? (
+          <>
+            <button type="button" className="onboarding-cta" onClick={handleIosInstalled}>
+              Ya la he instalado
+            </button>
+            <button type="button" className="install-skip" onClick={handleSkip}>
+              Ahora no
+            </button>
+          </>
         ) : (
           <>
-            {!iosMode && (
-              <p className="install-unavail">
-                Tu navegador gestionará la instalación automáticamente cuando estés listo.
-              </p>
-            )}
+            <p className="install-unavail">
+              Tu navegador gestionará la instalación automáticamente cuando estés listo.
+            </p>
             <button type="button" className="onboarding-cta" onClick={handleSkip}>
               Ir a la app
             </button>

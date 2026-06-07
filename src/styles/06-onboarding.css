@@ -690,3 +690,60 @@
   color: var(--color-fg-muted);
   font-size: var(--text-xs);
 }
+
+/* ——— Login: estado enviado ——— */
+
+.login-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-6) 0;
+}
+
+.login-sent-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.login-sent-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-fg);
+}
+
+.login-sent-desc {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.55;
+  color: var(--color-fg-muted);
+}
+
+.login-sent-hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-fg-subtle);
+}
+
+/* ——— Install: búsqueda de app ——— */
+
+.install-search-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.install-search-hint-icon {
+  font-size: 4rem;
+  line-height: 1;
+  animation: install-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes install-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
