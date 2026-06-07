@@ -595,21 +595,13 @@
   margin-bottom: 0.6rem;
 }
 
-.onboarding-diary-avatar {
+.onboarding-diary-avatar-img {
   width: 52px;
   height: 52px;
   border-radius: var(--radius-md);
-  background: var(--color-bg-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex-shrink: 0;
-}
-
-.onboarding-diary-avatar-emoji {
-  font-size: 1.6rem;
-  line-height: 1;
-  user-select: none;
+  background: var(--color-bg-muted);
 }
 
 .onboarding-diary-text {
@@ -642,6 +634,21 @@
   font-size: var(--text-sm);
   color: var(--color-fg-muted);
   margin-top: 0.1rem;
+}
+
+.onboarding-diary-boc-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.2rem;
+}
+
+.onboarding-diary-review {
+  margin: 0.25rem 0 0;
+  font-size: 0.72rem;
+  color: var(--color-fg-muted);
+  font-style: italic;
+  line-height: 1.4;
 }
 
 .onboarding-diary-boc-row {

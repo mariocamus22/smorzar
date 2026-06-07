@@ -195,25 +195,28 @@ export function OnboardingScreen1() {
 
 const MOCK_ENTRIES = [
   {
-    emoji: '🥖',
+    img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=104&h=104&fit=crop&auto=format',
     bar: 'Bar Pepita',
     loc: 'Russafa, València',
     date: '3 de junio de 2025',
     boc: 'Llonganissa i pebrot',
+    review: 'El pan estaba un poco duro, pero el relleno era generoso.',
   },
   {
-    emoji: '🥪',
+    img: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=104&h=104&fit=crop&auto=format',
     bar: 'Bodega La Pascuala',
     loc: 'El Carmen, València',
     date: '28 de mayo de 2025',
     boc: 'Calamars a la romana',
+    review: 'Muy poca cantidad para el precio. El café, excelente.',
   },
   {
-    emoji: '🍞',
+    img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=104&h=104&fit=crop&auto=format',
     bar: 'Bar Pilar',
     loc: 'Ciutat Vella, València',
     date: '21 de mayo de 2025',
     boc: 'Tonyina amb tomaca',
+    review: 'Bocadillo fresco y bien hecho. Repetiría sin dudar.',
   },
 ]
 
@@ -239,9 +242,12 @@ export function OnboardingScreen2() {
         <ul className="onboarding-diary-list">
           {MOCK_ENTRIES.map((entry, i) => (
             <li key={i} className="onboarding-diary-card">
-              <div className="onboarding-diary-avatar">
-                <span className="onboarding-diary-avatar-emoji">{entry.emoji}</span>
-              </div>
+              <img
+                className="onboarding-diary-avatar-img"
+                src={entry.img}
+                alt=""
+                loading="lazy"
+              />
               <div className="onboarding-diary-text">
                 <span className="onboarding-diary-bar">{entry.bar}</span>
                 <span className="onboarding-diary-loc">
@@ -252,15 +258,15 @@ export function OnboardingScreen2() {
                   <IconHistoryCalendar />
                   <span>{entry.date}</span>
                 </div>
+                <div className="onboarding-diary-boc-inline">
+                  <IconEsmorzarSmall />
+                  <span className="onboarding-diary-boc-name">{entry.boc}</span>
+                </div>
+                <p className="onboarding-diary-review">"{entry.review}"</p>
               </div>
             </li>
           ))}
         </ul>
-        <div className="onboarding-diary-boc-row">
-          <IconEsmorzarSmall />
-          <span className="onboarding-diary-boc-label">Bocadillo:</span>
-          <span className="onboarding-diary-boc-name">{MOCK_ENTRIES[0].boc}</span>
-        </div>
         <div className="onboarding-diary-fade" aria-hidden />
       </div>
 
