@@ -104,8 +104,7 @@ export function LoginPage() {
       <div className="login-hero">
         <h1 className="login-title">Accede a Esmorzapp</h1>
         <p className="login-subtitle">
-          Escribe tu nombre y correo. Te enviaremos un enlace directo al email —
-          sin contraseñas, sin pasos extra. Solo pulsa el enlace y ya estás dentro.
+          Te enviaremos un enlace directo al email para poder acceder — sin contraseñas ni pasos extra.
         </p>
       </div>
 
@@ -119,7 +118,7 @@ export function LoginPage() {
             autoComplete="given-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="¿Cómo te llaman?"
+            placeholder="José Luis"
           />
         </label>
 
@@ -130,7 +129,7 @@ export function LoginPage() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="tu@correo.com"
+            placeholder="joseluis@gmail.com"
             required
           />
         </label>
