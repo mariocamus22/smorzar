@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
 
 /* ─── Shared icons ─────────────────────────────────────────────── */
@@ -55,8 +56,29 @@ type OnboardingShellProps = {
 }
 
 function OnboardingShell({ step, children }: OnboardingShellProps) {
+  const navigate = useNavigate()
+  const touchStartX = useRef<number | null>(null)
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function onTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const delta = touchStartX.current - e.changedTouches[0].clientX
+    touchStartX.current = null
+    if (Math.abs(delta) < 50) return
+    if (delta > 0 && step === 1) navigate('/onboarding/2')
+    if (delta < 0 && step === 2) navigate('/onboarding/1')
+  }
+
   return (
-    <main className="page onboarding-page" aria-label={`Pantalla de bienvenida ${step} de 2`}>
+    <main
+      className="page onboarding-page"
+      aria-label={`Pantalla de bienvenida ${step} de 2`}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="onboarding-topbar">
         <div className="onboarding-brand">
           <span className="onboarding-brand-logo">
@@ -93,10 +115,10 @@ export function OnboardingScreen1() {
         <div className="ob-mockup">
           {/* Cabecera del formulario */}
           <div className="ob-mockup-header">
-            <span className="ob-mockup-date">24 de abril de 2026</span>
+            <span className="ob-mockup-date">Hoy</span>
             <span className="ob-mockup-bar">La Mesedora Algemesí</span>
             <span className="ob-mockup-addr">
-              <IconLocationPin /> Carrer Carnissers, 22 · Algemesí, Valencia
+              <IconLocationPin /> Algemesí, Valencia
             </span>
           </div>
 
@@ -111,7 +133,7 @@ export function OnboardingScreen1() {
           <div className="ob-mockup-section">
             <span className="ob-mockup-label">Bocadillo</span>
             <div className="ob-mockup-input">
-              <span className="ob-mockup-input-placeholder">Ej: Chivito, Tortilla francesa con longa…</span>
+              <span className="ob-mockup-input-placeholder">Ej: Chivito, carne de caballo…</span>
             </div>
           </div>
 
@@ -119,14 +141,10 @@ export function OnboardingScreen1() {
           <div className="ob-mockup-section">
             <span className="ob-mockup-label">Gasto <span className="ob-mockup-optional">(opcional)</span></span>
             <div className="ob-mockup-chips">
-              <span className="ob-mockup-chip ob-mockup-chip--selected">🥜 Cacahuetes del collaret</span>
-              <span className="ob-mockup-chip">🌶️ Cacahuetes fritos</span>
-              <span className="ob-mockup-chip">🥜 Mix frutos secos</span>
+              <span className="ob-mockup-chip ob-mockup-chip--selected">🥜 Cacahuetes</span>
               <span className="ob-mockup-chip">🫒 Olivas</span>
               <span className="ob-mockup-chip">🟡 Altramuces</span>
-              <span className="ob-mockup-chip">🥒 Encurtidos</span>
               <span className="ob-mockup-chip">🥗 Ensalada</span>
-              <span className="ob-mockup-chip">Otro</span>
             </div>
           </div>
 
