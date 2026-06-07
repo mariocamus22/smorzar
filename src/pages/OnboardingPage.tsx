@@ -88,56 +88,50 @@ export function OnboardingScreen1() {
         Guarda cada esmorzar con fotos, valoración y todos los detalles para recordarlo siempre.
       </p>
 
-      {/* Hero — dos tarjetas superpuestas en diagonal */}
+      {/* Hero — mockup del formulario real */}
       <div className="onboarding-hero onboarding-hero--form" aria-hidden>
-        <div className="onboarding-stack-wrap">
+        <div className="ob-mockup">
+          {/* Cabecera del formulario */}
+          <div className="ob-mockup-header">
+            <span className="ob-mockup-date">24 de abril de 2026</span>
+            <span className="ob-mockup-bar">La Mesedora Algemesí</span>
+            <span className="ob-mockup-addr">
+              <IconLocationPin /> Carrer Carnissers, 22 · Algemesí, Valencia
+            </span>
+          </div>
 
-          {/* Tarjeta trasera: Bebida + Café (abajo-derecha) */}
-          <div className="onboarding-form-card onboarding-stack-card onboarding-stack-card--back">
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Bebida</span>
-              <div className="onboarding-stack-options">
-                <span className="onboarding-form-drink form-option is-selected">🍺 Cerveza</span>
-                <span className="onboarding-form-drink form-option">💧 Agua</span>
-              </div>
-            </div>
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Café</span>
-              <div className="onboarding-stack-options">
-                <span className="onboarding-form-drink form-option is-selected">🥃 Cremaet</span>
-                <span className="onboarding-form-drink form-option">☕ Solo</span>
-                <span className="onboarding-form-drink form-option">☕ Cortado</span>
-              </div>
+          {/* Tabs */}
+          <div className="ob-mockup-tabs">
+            <span className="ob-mockup-tab ob-mockup-tab--active">🥖 Bocadillo y Gasto</span>
+            <span className="ob-mockup-tab">🥤 Bebida</span>
+            <span className="ob-mockup-tab">☕ Café</span>
+          </div>
+
+          {/* Bocadillo */}
+          <div className="ob-mockup-section">
+            <span className="ob-mockup-label">Bocadillo</span>
+            <div className="ob-mockup-input">
+              <span className="ob-mockup-input-placeholder">Ej: Chivito, Tortilla francesa con longa…</span>
             </div>
           </div>
 
-          {/* Tarjeta frontal: Bocadillo + Gasto (arriba-izquierda) */}
-          <div className="onboarding-form-card onboarding-stack-card onboarding-stack-card--front">
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Bocadillo</span>
-              <div className="onboarding-form-input">
-                <span className="onboarding-form-input-typed">Chivito</span>
-              </div>
-            </div>
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Gasto</span>
-              <div className="onboarding-form-chips-grid">
-                <span className="form-gasto-chip form-option is-selected">
-                  <span className="form-gasto-chip-emoji">🥜</span>
-                  <span className="form-gasto-chip-label">Cacahuetes</span>
-                </span>
-                <span className="form-gasto-chip form-option">
-                  <span className="form-gasto-chip-emoji">🫒</span>
-                  <span className="form-gasto-chip-label">Olivas</span>
-                </span>
-                <span className="form-gasto-chip form-option">
-                  <span className="form-gasto-chip-emoji">🥗</span>
-                  <span className="form-gasto-chip-label">Ensalada</span>
-                </span>
-              </div>
+          {/* Gasto */}
+          <div className="ob-mockup-section">
+            <span className="ob-mockup-label">Gasto <span className="ob-mockup-optional">(opcional)</span></span>
+            <div className="ob-mockup-chips">
+              <span className="ob-mockup-chip ob-mockup-chip--selected">🥜 Cacahuetes del collaret</span>
+              <span className="ob-mockup-chip">🌶️ Cacahuetes fritos</span>
+              <span className="ob-mockup-chip">🥜 Mix frutos secos</span>
+              <span className="ob-mockup-chip">🫒 Olivas</span>
+              <span className="ob-mockup-chip">🟡 Altramuces</span>
+              <span className="ob-mockup-chip">🥒 Encurtidos</span>
+              <span className="ob-mockup-chip">🥗 Ensalada</span>
+              <span className="ob-mockup-chip">Otro</span>
             </div>
           </div>
 
+          {/* Fade inferior */}
+          <div className="ob-mockup-fade" />
         </div>
       </div>
 

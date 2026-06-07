@@ -434,6 +434,138 @@
   pointer-events: none;
 }
 
+/* ——— Screen 1: form mockup ——— */
+
+.ob-mockup {
+  position: relative;
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-mockup-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem 0.65rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.ob-mockup-date {
+  font-size: 0.65rem;
+  color: var(--color-fg-muted);
+  font-weight: 400;
+}
+
+.ob-mockup-bar {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-fg);
+  letter-spacing: -0.01em;
+}
+
+.ob-mockup-addr {
+  font-size: 0.62rem;
+  color: var(--color-fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.ob-mockup-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.ob-mockup-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--color-fg-muted);
+  padding: 0.45rem 0.25rem;
+}
+
+.ob-mockup-tab--active {
+  color: var(--color-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.ob-mockup-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.6rem 0.85rem 0;
+}
+
+.ob-mockup-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-fg);
+}
+
+.ob-mockup-optional {
+  font-weight: 400;
+  color: var(--color-fg-muted);
+  font-size: 0.68rem;
+}
+
+.ob-mockup-input {
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.45rem 0.65rem;
+  display: flex;
+  align-items: center;
+}
+
+.ob-mockup-input-placeholder {
+  font-size: 0.62rem;
+  color: var(--color-fg-subtle);
+  font-style: italic;
+}
+
+.ob-mockup-chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+}
+
+.ob-mockup-chip {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.55rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ob-mockup-chip--selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.ob-mockup-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3.5rem;
+  background: linear-gradient(to bottom, transparent, var(--color-surface));
+  pointer-events: none;
+}
+
 /* ——— Screen 2: diary hero ——— */
 
 .onboarding-hero--diary {
