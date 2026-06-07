@@ -394,11 +394,18 @@ export function HomeList() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [installOpen, setInstallOpen] = useState(false)
+  const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, canInstall, triggerPrompt } = useInstallPrompt()
 
   async function handleInstall() {
     if (canInstall) {
-      await triggerPrompt()
+      setInstallPhase('installing')
+      const ok = await triggerPrompt()
+      if (ok) {
+        setInstallPhase('success')
+      } else {
+        setInstallPhase('idle')
+      }
     } else {
       setInstallOpen(true)
     }
@@ -529,6 +536,53 @@ export function HomeList() {
     }
     return levelHintText(levelProgress)
   }, [sinConfig, levelProgress])
+
+  /* ── Pantalla "Instalando…" ── */
+  if (installPhase === 'installing') {
+    return (
+      <main id={MAIN_CONTENT_ID} className="install-overlay">
+        <div className="install-overlay-inner">
+          <span className="spinner install-overlay-spinner" aria-hidden />
+          <p className="install-overlay-label">Instalando…</p>
+        </div>
+      </main>
+    )
+  }
+
+  /* ── Pantalla de éxito ── */
+  if (installPhase === 'success') {
+    return (
+      <main id={MAIN_CONTENT_ID} className="install-overlay">
+        <div className="install-success-wrap">
+          <div className="install-success-phone" aria-hidden>
+            <div className="install-success-phone-screen">
+              <div className="install-success-phone-dots install-success-phone-dots--top">
+                {[0,1,2,3].map(i => <span key={i} className="install-success-phone-dot" />)}
+              </div>
+              <div className="install-success-app-icon">
+                <IconCroissant />
+              </div>
+              <p className="install-success-app-label">Esmorzapp</p>
+              <div className="install-success-phone-dots install-success-phone-dots--bottom">
+                {[0,1,2,3,4].map(i => <span key={i} className="install-success-phone-dot" />)}
+              </div>
+            </div>
+          </div>
+          <div className="install-success-text">
+            <h2 className="install-success-title">¡Ya está instalada!</h2>
+            <p className="install-success-desc">Búscala en tu pantalla de inicio y ábrela desde ahí para usarla sin el navegador.</p>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary install-success-cta"
+            onClick={() => { setInstallPhase('idle'); window.location.reload() }}
+          >
+            Abrir Esmorzapp
+          </button>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main id={MAIN_CONTENT_ID} className="page home-page">
