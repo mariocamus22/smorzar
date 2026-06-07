@@ -128,7 +128,7 @@ export function OnboardingScreen1() {
         Nunca olvides un buen&nbsp;almuerzo
       </h1>
       <p className="onboarding-subhead">
-        Guarda cada esmorzar con fotos, valoración y todos los detalles para recordarlo siempre.
+        Guarda cada almuerzo con fotos, valoración y todos los detalles para recordarlo siempre.
       </p>
 
       {/* Hero — mockup del formulario real */}
