@@ -572,13 +572,6 @@ export function HomeList() {
             <h2 className="install-success-title">¡Ya está instalada!</h2>
             <p className="install-success-desc">Búscala en tu pantalla de inicio y ábrela desde ahí para usarla sin el navegador.</p>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary install-success-cta"
-            onClick={() => { setInstallPhase('idle'); window.location.reload() }}
-          >
-            Abrir Esmorzapp
-          </button>
         </div>
       </main>
     )
