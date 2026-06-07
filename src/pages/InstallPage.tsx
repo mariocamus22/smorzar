@@ -68,7 +68,6 @@ export function InstallPage() {
   const navigate = useNavigate()
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
   const [canInstall, setCanInstall] = useState(false)
-  const [installed, setInstalled] = useState(false)
   const [searchHint, setSearchHint] = useState(false)
 
   useEffect(() => {
@@ -87,7 +86,6 @@ export function InstallPage() {
     window.addEventListener('beforeinstallprompt', handler)
 
     const appInstalled = () => {
-      setInstalled(true)
       setSearchHint(true)
       markInstallDone()
     }
