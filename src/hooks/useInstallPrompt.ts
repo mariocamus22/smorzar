@@ -26,7 +26,6 @@ export function useInstallPrompt() {
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
   const [canInstall, setCanInstall] = useState(false)
   const [installed, setInstalled] = useState(false)
-  const autoFired = useRef(false)
 
   const isPwa = isRunningAsPwa()
 
@@ -56,14 +55,6 @@ export function useInstallPrompt() {
     if (outcome === 'accepted') setInstalled(true)
     return outcome === 'accepted'
   }, [])
-
-  // Auto-fire once when the event is available
-  useEffect(() => {
-    if (canInstall && !autoFired.current && !isPwa) {
-      autoFired.current = true
-      void triggerPrompt()
-    }
-  }, [canInstall, isPwa, triggerPrompt])
 
   return { canInstall, triggerPrompt, isPwa, installed }
 }

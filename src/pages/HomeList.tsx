@@ -394,7 +394,15 @@ export function HomeList() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [installOpen, setInstallOpen] = useState(false)
-  const { isPwa } = useInstallPrompt()
+  const { isPwa, canInstall, triggerPrompt } = useInstallPrompt()
+
+  async function handleInstall() {
+    if (canInstall) {
+      await triggerPrompt()
+    } else {
+      setInstallOpen(true)
+    }
+  }
   const [levels, setLevels] = useState<LevelRow[]>([])
   const [levelsReady, setLevelsReady] = useState(false)
   const [recentViewMode, setRecentViewMode] = useState<RecentViewMode>(() => readStoredRecentView())
@@ -531,6 +539,15 @@ export function HomeList() {
       />
       <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
 
+      {!isPwa && (
+        <div className="install-nudge" role="complementary">
+          <span className="install-nudge-text">📲 Instala la app</span>
+          <button type="button" className="install-nudge-btn" onClick={handleInstall}>
+            Instalar
+          </button>
+        </div>
+      )}
+
       <header className="home-top-bar">
         <div className="home-brand">
           <IconCroissant />
@@ -554,7 +571,7 @@ export function HomeList() {
             <button
               type="button"
               className="home-install-btn"
-              onClick={() => setInstallOpen(true)}
+              onClick={handleInstall}
               aria-label="Instalar aplicación"
               title="Instalar Esmorzapp en tu móvil"
             >
@@ -563,14 +580,6 @@ export function HomeList() {
           )}
         </div>
       </header>
-      {!isPwa && (
-        <div className="install-nudge" role="complementary">
-          <span className="install-nudge-text">Instala la app</span>
-          <button type="button" className="install-nudge-btn" onClick={() => setInstallOpen(true)}>
-            Instalar
-          </button>
-        </div>
-      )}
 
       <h1 className="home-greeting">¿Dónde toca almorzar hoy, {nom}?</h1>
 

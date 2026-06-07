@@ -762,25 +762,25 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: 0.55rem var(--space-5);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: 0.5rem var(--space-5);
+  background: oklch(from var(--color-primary) l c h / 0.12);
+  border-bottom: 1px solid oklch(from var(--color-primary) l c h / 0.2);
 }
 .install-nudge-text {
   font-size: var(--text-sm);
-  font-weight: 400;
-  color: var(--color-fg-muted);
+  font-weight: 500;
+  color: oklch(from var(--color-primary) calc(l - 0.1) c h);
   line-height: 1.4;
 }
 .install-nudge-btn {
   flex-shrink: 0;
-  background: transparent;
-  border: 1.5px solid var(--color-primary);
+  background: var(--color-primary);
+  border: none;
   border-radius: var(--radius-full);
-  color: var(--color-primary);
+  color: #fff;
   font-size: var(--text-sm);
   font-weight: 600;
-  padding: 0.25rem 0.85rem;
+  padding: 0.28rem 0.9rem;
   cursor: pointer;
 }
 
