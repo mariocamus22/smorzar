@@ -11,7 +11,7 @@ import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
  * Acceso por enlace mágico al correo (Supabase Auth).
  */
 export function LoginPage() {
-  const { session, loading } = useAuth()
+  const { session, loading, initError } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [sent, setSent] = useState(false)
@@ -36,6 +36,22 @@ export function LoginPage() {
     )
   }
 
+  if (initError && !session) {
+    return (
+      <main id={MAIN_CONTENT_ID} className="page">
+        <header className="page-header">
+          <h1>Iniciar sesión</h1>
+        </header>
+        <p className="banner banner-error" role="alert">
+          {initError}
+        </p>
+        <button type="button" className="btn btn-primary" onClick={() => window.location.reload()}>
+          Reintentar
+        </button>
+      </main>
+    )
+  }
+
   if (session) {
     return <Navigate to="/" replace />
   }
@@ -51,46 +67,49 @@ export function LoginPage() {
 
     setSubmitting(true)
 
-    const emailNorm = trimmed.toLowerCase()
-    const shared = autoLoginSharedPassword()
-    const useAutoLogin = isAutoLoginEmail(trimmed) && shared != null
+    try {
+      const emailNorm = trimmed.toLowerCase()
+      const shared = autoLoginSharedPassword()
+      const useAutoLogin = isAutoLoginEmail(trimmed) && shared != null
 
-    if (isAutoLoginEmail(trimmed) && !shared) {
-      setSubmitting(false)
-      setErr(
-        'Este correo usa acceso directo: añade VITE_AUTO_LOGIN_SHARED_PASSWORD al archivo .env (ver .env.example).',
-      )
-      return
-    }
+      if (isAutoLoginEmail(trimmed) && !shared) {
+        setErr(
+          'Este correo usa acceso directo: añade VITE_AUTO_LOGIN_SHARED_PASSWORD al archivo .env (ver .env.example).',
+        )
+        return
+      }
 
-    const res = useAutoLogin
-      ? await supabase.auth.signInWithPassword({
-          email: emailNorm,
-          password: shared,
-        })
-      : allowPassword && password.trim()
+      const res = useAutoLogin
         ? await supabase.auth.signInWithPassword({
-            email: trimmed,
-            password: password.trim(),
+            email: emailNorm,
+            password: shared,
           })
-        : await supabase.auth.signInWithOtp({
-            email: trimmed,
-            options: {
-              emailRedirectTo: `${window.location.origin}/`,
-            },
-          })
+        : allowPassword && password.trim()
+          ? await supabase.auth.signInWithPassword({
+              email: trimmed,
+              password: password.trim(),
+            })
+          : await supabase.auth.signInWithOtp({
+              email: trimmed,
+              options: {
+                emailRedirectTo: `${window.location.origin}/`,
+              },
+            })
 
-    setSubmitting(false)
+      if (res.error) {
+        setErr(formatSupabaseError(res.error))
+        return
+      }
 
-    if (res.error) {
-      setErr(formatSupabaseError(res.error))
-      return
+      if (useAutoLogin || (allowPassword && password.trim())) {
+        return
+      }
+      setSent(true)
+    } catch (e) {
+      setErr(formatSupabaseError(e))
+    } finally {
+      setSubmitting(false)
     }
-
-    if (useAutoLogin || (allowPassword && password.trim())) {
-      return
-    }
-    setSent(true)
   }
 
   return (

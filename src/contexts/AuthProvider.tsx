@@ -2,12 +2,17 @@ import type { Session } from '@supabase/supabase-js'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
 import { fetchProfile } from '../lib/almuerzosApi'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
+import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
 import { isSupportAdminUser } from '../lib/supportAdmin'
 import type { UserProfile } from '../types/almuerzo'
 import { AuthContext, type AuthState } from './auth-context'
 
 const IMPERSONATE_STORAGE_KEY = 'esmorzar_impersonate_v1'
+const AUTH_INIT_TIMEOUT_MS = 12_000
+
+const AUTH_INIT_ERROR =
+  'No hay conexión con el servidor o la configuración de Supabase no es válida. Comprueba tu red e inténtalo de nuevo.'
 
 type Impersonation = { id: string; email: string }
 
@@ -41,6 +46,7 @@ function impersonationForSession(session: Session | null): Impersonation | null 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthState['session']>(null)
   const [loading, setLoading] = useState(true)
+  const [initError, setInitError] = useState<string | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [profileLoading, setProfileLoading] = useState(false)
   const [impersonation, setImpersonationState] = useState<Impersonation | null>(null)
@@ -83,24 +89,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [effectiveUserId])
 
   useEffect(() => {
-    let mounted = true
+    if (!hasSupabaseConfig()) {
+      setLoading(false)
+      setInitError('Faltan VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY en la configuración del despliegue.')
+      return
+    }
 
-    void supabase.auth.getSession().then(({ data: { session: s } }) => {
-      if (!mounted) return
+    let mounted = true
+    let resolved = false
+
+    const finishInit = (s: Session | null) => {
+      if (!mounted || resolved) return
+      resolved = true
+      setInitError(null)
       setImpersonationState(impersonationForSession(s))
       setSession(s)
       setLoading(false)
-    })
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      if (!mounted || resolved) return
+      resolved = true
+      setLoading(false)
+      setInitError(AUTH_INIT_ERROR)
+    }, AUTH_INIT_TIMEOUT_MS)
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, s) => {
-      setImpersonationState(impersonationForSession(s))
-      setSession(s)
+      finishInit(s)
     })
+
+    void supabase.auth
+      .getSession()
+      .then(({ data: { session: s } }) => finishInit(s))
+      .catch(() => {
+        if (!mounted || resolved) return
+        resolved = true
+        setLoading(false)
+        setInitError(AUTH_INIT_ERROR)
+      })
 
     return () => {
       mounted = false
+      window.clearTimeout(timeoutId)
       subscription.unsubscribe()
     }
   }, [])
@@ -163,6 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user,
       loading,
+      initError,
       profile,
       profileLoading,
       refreshProfile,
@@ -188,6 +221,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user,
       loading,
+      initError,
       profile,
       profileLoading,
       refreshProfile,

@@ -6,6 +6,8 @@ export type AuthState = {
   session: Session | null
   user: User | null
   loading: boolean
+  /** Error al conectar con Supabase Auth al arrancar (p. ej. red o proyecto inactivo). */
+  initError: string | null
   profile: UserProfile | null
   profileLoading: boolean
   refreshProfile: () => Promise<void>
