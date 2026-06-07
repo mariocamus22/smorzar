@@ -195,6 +195,7 @@
 /* ——— Footer CTA ——— */
 .onboarding-footer {
   margin-top: var(--space-7);
+  padding-bottom: var(--space-8);
   display: flex;
   flex-direction: column;
   align-items: center;
