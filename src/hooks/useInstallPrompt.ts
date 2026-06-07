@@ -24,6 +24,8 @@ export function isAndroidChrome(): boolean {
 
 export function useInstallPrompt() {
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
+  // Cola de resolvers que esperan a que llegue el evento beforeinstallprompt
+  const waiters = useRef<Array<(e: BeforeInstallPromptEvent) => void>>([])
   const [canInstall, setCanInstall] = useState(false)
   const [installed, setInstalled] = useState(false)
 
@@ -33,8 +35,12 @@ export function useInstallPrompt() {
     if (isPwa) return
     const handler = (e: Event) => {
       e.preventDefault()
-      deferredPrompt.current = e as BeforeInstallPromptEvent
+      const bipe = e as BeforeInstallPromptEvent
+      deferredPrompt.current = bipe
       setCanInstall(true)
+      // Notifica a quien estuviera esperando
+      waiters.current.forEach((resolve) => resolve(bipe))
+      waiters.current = []
     }
     const onInstalled = () => setInstalled(true)
     window.addEventListener('beforeinstallprompt', handler)
@@ -45,8 +51,28 @@ export function useInstallPrompt() {
     }
   }, [isPwa])
 
+  /**
+   * Espera hasta `timeoutMs` ms a que llegue el evento beforeinstallprompt.
+   * Si ya está disponible, resuelve inmediatamente.
+   * Si no llega a tiempo, devuelve null.
+   */
+  const waitForPrompt = useCallback((timeoutMs = 3000): Promise<BeforeInstallPromptEvent | null> => {
+    if (deferredPrompt.current) return Promise.resolve(deferredPrompt.current)
+    return new Promise((resolve) => {
+      const timer = window.setTimeout(() => {
+        waiters.current = waiters.current.filter((r) => r !== resolve)
+        resolve(null)
+      }, timeoutMs)
+      waiters.current.push((e) => {
+        window.clearTimeout(timer)
+        resolve(e)
+      })
+    })
+  }, [])
+
   const triggerPrompt = useCallback(async (): Promise<boolean> => {
-    const prompt = deferredPrompt.current
+    // Si el prompt no ha llegado aún, esperamos hasta 3 segundos
+    const prompt = await waitForPrompt(3000)
     if (!prompt) return false
     await prompt.prompt()
     const { outcome } = await prompt.userChoice
@@ -54,7 +80,7 @@ export function useInstallPrompt() {
     setCanInstall(false)
     if (outcome === 'accepted') setInstalled(true)
     return outcome === 'accepted'
-  }, [])
+  }, [waitForPrompt])
 
   return { canInstall, triggerPrompt, isPwa, installed }
 }
