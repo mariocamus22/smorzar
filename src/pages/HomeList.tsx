@@ -565,7 +565,7 @@ export function HomeList() {
       </header>
       {!isPwa && (
         <div className="install-nudge" role="complementary">
-          <span className="install-nudge-text">📲 Instala la app para una mejor experiencia</span>
+          <span className="install-nudge-text">Instala la app</span>
           <button type="button" className="install-nudge-btn" onClick={() => setInstallOpen(true)}>
             Instalar
           </button>
