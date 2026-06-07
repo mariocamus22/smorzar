@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
+import { IconEsmorzar } from '../components/IconEsmorzar'
 
 /* ─── Shared icons ─────────────────────────────────────────────── */
 
@@ -191,24 +192,21 @@ const MOCK_ENTRIES = [
     bar: 'Bar Pepita',
     loc: 'Russafa, València',
     date: '3 de junio de 2025',
-    boc: 'Llonganissa i pebrot',
-    review: 'El pan estaba un poco duro, pero el relleno era generoso.',
+    boc: 'Sepia a la plancha',
   },
   {
     img: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=104&h=104&fit=crop&auto=format',
     bar: 'Bodega La Pascuala',
     loc: 'El Carmen, València',
     date: '28 de mayo de 2025',
-    boc: 'Calamars a la romana',
-    review: 'Muy poca cantidad para el precio. El café, excelente.',
+    boc: 'Almussafes',
   },
   {
     img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=104&h=104&fit=crop&auto=format',
     bar: 'Bar Pilar',
     loc: 'Ciutat Vella, València',
     date: '21 de mayo de 2025',
-    boc: 'Tonyina amb tomaca',
-    review: 'Bocadillo fresco y bien hecho. Repetiría sin dudar.',
+    boc: 'Tortilla de habas y longanizas',
   },
 ]
 
@@ -234,27 +232,19 @@ export function OnboardingScreen2() {
         <ul className="onboarding-diary-list">
           {MOCK_ENTRIES.map((entry, i) => (
             <li key={i} className="onboarding-diary-card">
-              {/* Columna izquierda: imagen + bocadillo */}
-              <div className="onboarding-diary-left">
-                <img
-                  className="onboarding-diary-avatar-img"
-                  src={entry.img}
-                  alt=""
-                  loading="lazy"
-                />
-                <span className="onboarding-diary-boc-name">{entry.boc}</span>
-              </div>
-              {/* Columna derecha: info del bar */}
-              <div className="onboarding-diary-text">
-                <span className="onboarding-diary-bar">{entry.bar}</span>
-                <span className="onboarding-diary-loc">
-                  <IconLocationPin />
-                  {entry.loc}
-                </span>
-                <div className="onboarding-diary-meta">
-                  <IconHistoryCalendar />
-                  <span>{entry.date}</span>
+              {/* Fila superior: imagen + info */}
+              <div className="onboarding-diary-top">
+                <img className="onboarding-diary-avatar-img" src={entry.img} alt="" loading="lazy" />
+                <div className="onboarding-diary-text">
+                  <span className="onboarding-diary-bar">{entry.bar}</span>
+                  <span className="onboarding-diary-loc"><IconLocationPin />{entry.loc}</span>
+                  <div className="onboarding-diary-meta"><IconHistoryCalendar /><span>{entry.date}</span></div>
                 </div>
+              </div>
+              {/* Fila inferior: bocadillo ancho completo */}
+              <div className="onboarding-diary-boc-row">
+                <IconEsmorzar />
+                <span className="onboarding-diary-boc-name">{entry.boc}</span>
               </div>
             </li>
           ))}
