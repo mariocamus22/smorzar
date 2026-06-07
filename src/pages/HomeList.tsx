@@ -36,8 +36,7 @@ function firstName(user: User | null): string {
         ? meta.name
         : null
   if (full?.trim()) {
-    const part = full.trim().split(/\s+/)[0]
-    return part || 'amigo'
+    return full.trim() || 'amigo'
   }
   const email = user.email?.split('@')[0]
   return email?.trim() || 'amigo'

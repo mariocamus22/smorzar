@@ -192,7 +192,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const greetingHint = useMemo(() => {
     if (!isImpersonating || !impersonation) return null
     const dn = profile?.display_name?.trim()
-    if (dn) return dn.split(/\s+/)[0] || dn
+    if (dn) return dn
     const local = impersonation.email.split('@')[0]?.trim()
     return local || 'usuario'
   }, [isImpersonating, impersonation, profile?.display_name])
