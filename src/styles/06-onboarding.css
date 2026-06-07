@@ -830,6 +830,56 @@
   font-size: var(--text-xs);
 }
 
+/* ——— Login page ——— */
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: var(--space-8) var(--space-5) var(--space-6);
+  gap: var(--space-8);
+}
+
+.login-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.login-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 8vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-fg);
+}
+
+.login-subtitle {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--color-fg-muted);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.login-cta {
+  margin-top: var(--space-2);
+}
+
+.login-disclaimer {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-fg-subtle);
+  text-align: center;
+  line-height: 1.5;
+}
+
 /* ——— Login: estado enviado ——— */
 
 .login-sent {
