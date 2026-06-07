@@ -88,75 +88,59 @@ export function OnboardingScreen1() {
         Guarda cada esmorzar con fotos, valoración y todos los detalles para recordarlo siempre.
       </p>
 
-      {/* Hero — dos pantallas del formulario en paralelo */}
+      {/* Hero — formulario estático */}
       <div className="onboarding-hero onboarding-hero--form" aria-hidden>
-        <div className="onboarding-dual-wrap">
+        <div className="onboarding-form-card">
 
-          {/* Tarjeta 1: Bocadillo + Gasto */}
-          <div className="onboarding-form-card onboarding-form-card--dual onboarding-form-card--left">
-            <div className="onboarding-form-header">
-              <p className="onboarding-form-date">Hoy</p>
-              <h2 className="onboarding-form-bar">La Mesedora</h2>
-              <div className="onboarding-preview-loc">
-                <IconLocationPin />
-                <span>Algemesí, Valencia</span>
-              </div>
-            </div>
-
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Bocadillo</span>
-              <div className="onboarding-form-input">
-                <span className="onboarding-form-input-typed">Chi</span>
-                <span className="onboarding-form-cursor" />
-                <span className="onboarding-form-autocomplete">vito</span>
-              </div>
-            </div>
-
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Gasto</span>
-              <div className="onboarding-form-chips-col">
-                <span className="form-gasto-chip form-option is-selected">
-                  <span className="form-gasto-chip-emoji">🥜</span>
-                  <span className="form-gasto-chip-label">Cacahuetes del collaret</span>
-                </span>
-                <span className="form-gasto-chip form-option">
-                  <span className="form-gasto-chip-emoji">🫒</span>
-                  <span className="form-gasto-chip-label">Olivas</span>
-                </span>
-                <span className="form-gasto-chip form-option">
-                  <span className="form-gasto-chip-emoji">🥗</span>
-                  <span className="form-gasto-chip-label">Ensalada</span>
-                </span>
-              </div>
+          <div className="onboarding-form-header">
+            <p className="onboarding-form-date">Hoy</p>
+            <h2 className="onboarding-form-bar">La Mesedora</h2>
+            <div className="onboarding-preview-loc">
+              <IconLocationPin />
+              <span>Algemesí, Valencia</span>
             </div>
           </div>
 
-          {/* Tarjeta 2: Bebida + Café */}
-          <div className="onboarding-form-card onboarding-form-card--dual onboarding-form-card--right">
-            <div className="onboarding-form-header">
-              <p className="onboarding-form-date">Hoy</p>
-              <h2 className="onboarding-form-bar">La Mesedora</h2>
-              <div className="onboarding-preview-loc">
-                <IconLocationPin />
-                <span>Algemesí, Valencia</span>
-              </div>
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Bocadillo</span>
+            <div className="onboarding-form-input">
+              <span className="onboarding-form-input-typed">Chi</span>
+              <span className="onboarding-form-cursor" />
+              <span className="onboarding-form-autocomplete">vito</span>
             </div>
+          </div>
 
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Bebida</span>
-              <div className="onboarding-form-chips-col">
-                <span className="onboarding-form-drink form-option is-selected">🍺 Cerveza</span>
-                <span className="onboarding-form-drink form-option">💧 Agua</span>
-              </div>
-            </div>
-
-            <div className="onboarding-form-section">
-              <span className="detail-static-label detail-static-label--accent">Café</span>
-              <div className="onboarding-form-chips-col">
-                <span className="onboarding-form-drink form-option is-selected">☕ Con leche</span>
-                <span className="onboarding-form-drink form-option">☕ Solo</span>
-                <span className="onboarding-form-drink form-option">☕ Cortado</span>
-              </div>
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Gasto</span>
+            <div className="onboarding-form-chips-grid">
+              <span className="form-gasto-chip form-option is-selected">
+                <span className="form-gasto-chip-emoji">🥜</span>
+                <span className="form-gasto-chip-label">Cacahuetes</span>
+              </span>
+              <span className="form-gasto-chip form-option">
+                <span className="form-gasto-chip-emoji">🫒</span>
+                <span className="form-gasto-chip-label">Olivas</span>
+              </span>
+              <span className="form-gasto-chip form-option">
+                <span className="form-gasto-chip-emoji">🥗</span>
+                <span className="form-gasto-chip-label">Ensalada</span>
+              </span>
+              <span className="form-gasto-chip form-option is-selected">
+                <span className="form-gasto-chip-emoji">☕</span>
+                <span className="form-gasto-chip-label">Café</span>
+              </span>
+              <span className="form-gasto-chip form-option onboarding-chip--fading">
+                <span className="form-gasto-chip-emoji">🥃</span>
+                <span className="form-gasto-chip-label">Cremaet</span>
+              </span>
+              <span className="form-gasto-chip form-option onboarding-chip--fading">
+                <span className="form-gasto-chip-emoji">☕</span>
+                <span className="form-gasto-chip-label">Cortado</span>
+              </span>
+              <span className="form-gasto-chip form-option onboarding-chip--fading">
+                <span className="form-gasto-chip-emoji">➕</span>
+                <span className="form-gasto-chip-label">Otros</span>
+              </span>
             </div>
           </div>
 
