@@ -165,10 +165,7 @@ export function OnboardingScreen1() {
           {/* Fade inferior */}
           <div className="ob-mockup-fade" />
         </div>
-        {/* Reseña flotante */}
-        <div className="onboarding-diary-review-bubble">
-          <span className="onboarding-diary-review-quote">"El pan estaba un poco duro, pero el relleno era generoso."</span>
-        </div>
+
       </div>
 
       <div className="onboarding-footer">
