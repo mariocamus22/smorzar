@@ -39,14 +39,6 @@ function IconHistoryCalendar() {
   )
 }
 
-function IconEsmorzarSmall() {
-  return (
-    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <ellipse cx="12" cy="14" rx="9" ry="5" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M3 14c0-3 4-6 9-6s9 3 9 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 /* ─── Shared layout ─────────────────────────────────────────────── */
 
