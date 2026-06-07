@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useInstallPrompt } from '../hooks/useInstallPrompt'
 import { InstallModal } from '../components/InstallModal'
@@ -396,24 +396,17 @@ export function HomeList() {
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, canInstall, triggerPrompt } = useInstallPrompt()
 
-  // Auto-show del modal de instalación en cuanto el navegador confirma que puede instalar.
-  // hasAutoShown evita que se reabra si el usuario lo cierra manualmente.
-  const hasAutoShown = useRef(false)
-  useEffect(() => {
-    if (canInstall && !isPwa && !hasAutoShown.current) {
-      hasAutoShown.current = true
-      setInstallOpen(true)
-    }
-  }, [canInstall, isPwa])
-
   async function handleInstall() {
-    setInstallOpen(false)
-    setInstallPhase('installing')
-    const ok = await triggerPrompt()
-    if (ok) {
-      setInstallPhase('success')
+    if (canInstall) {
+      setInstallPhase('installing')
+      const ok = await triggerPrompt()
+      if (ok) {
+        setInstallPhase('success')
+      } else {
+        setInstallPhase('idle')
+      }
     } else {
-      setInstallPhase('idle')
+      setInstallOpen(true)
     }
   }
   const [levels, setLevels] = useState<LevelRow[]>([])
