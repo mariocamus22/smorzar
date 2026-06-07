@@ -97,7 +97,7 @@ export function LoginPage() {
             })
 
       if (res.error) {
-        setErr(formatSupabaseError(res.error))
+        setErr(formatSupabaseError(res.error) || 'Credenciales incorrectas. Comprueba que la contraseña coincide con la configurada en Vercel.')
         return
       }
 
