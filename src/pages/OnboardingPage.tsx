@@ -242,12 +242,17 @@ export function OnboardingScreen2() {
         <ul className="onboarding-diary-list">
           {MOCK_ENTRIES.map((entry, i) => (
             <li key={i} className="onboarding-diary-card">
-              <img
-                className="onboarding-diary-avatar-img"
-                src={entry.img}
-                alt=""
-                loading="lazy"
-              />
+              {/* Columna izquierda: imagen + bocadillo */}
+              <div className="onboarding-diary-left">
+                <img
+                  className="onboarding-diary-avatar-img"
+                  src={entry.img}
+                  alt=""
+                  loading="lazy"
+                />
+                <span className="onboarding-diary-boc-name">{entry.boc}</span>
+              </div>
+              {/* Columna derecha: info del bar */}
               <div className="onboarding-diary-text">
                 <span className="onboarding-diary-bar">{entry.bar}</span>
                 <span className="onboarding-diary-loc">
@@ -258,15 +263,14 @@ export function OnboardingScreen2() {
                   <IconHistoryCalendar />
                   <span>{entry.date}</span>
                 </div>
-                <div className="onboarding-diary-boc-inline">
-                  <IconEsmorzarSmall />
-                  <span className="onboarding-diary-boc-name">{entry.boc}</span>
-                </div>
-                <p className="onboarding-diary-review">"{entry.review}"</p>
               </div>
             </li>
           ))}
         </ul>
+        {/* Reseña flotante — fuera de las cards */}
+        <div className="onboarding-diary-review-bubble">
+          <span className="onboarding-diary-review-quote">"El pan estaba un poco duro, pero el relleno era generoso."</span>
+        </div>
         <div className="onboarding-diary-fade" aria-hidden />
       </div>
 
