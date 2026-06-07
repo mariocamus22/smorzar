@@ -761,7 +761,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin: 0.85rem var(--space-5) 0;
+  margin: 0.85rem var(--space-3) 1.5rem;
   padding: 0.9rem 1rem;
   background: rgba(224, 150, 30, 0.1);
   border: 1px solid rgba(224, 150, 30, 0.22);
