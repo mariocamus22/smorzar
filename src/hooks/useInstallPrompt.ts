@@ -32,7 +32,8 @@ export function useInstallPrompt() {
   useEffect(() => {
     if (isPwa) return
     const handler = (e: Event) => {
-      e.preventDefault()
+      // NO llamamos e.preventDefault() → Chrome muestra el prompt nativo automáticamente.
+      // Guardamos igualmente la referencia por si el usuario pulsa el botón "Instalar" del banner.
       deferredPrompt.current = e as BeforeInstallPromptEvent
       setCanInstall(true)
     }
