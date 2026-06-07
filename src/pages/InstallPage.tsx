@@ -116,14 +116,9 @@ export function InstallPage() {
     }
   }
 
-  function handleIosInstalled() {
+  function handleManualInstalled() {
     markInstallDone()
     setSearchHint(true)
-  }
-
-  function handleSkip() {
-    markInstallDone()
-    navigate('/', { replace: true })
   }
 
   function handleGoApp() {
@@ -236,32 +231,17 @@ export function InstallPage() {
 
       <div className="onboarding-footer install-footer">
         {canInstall ? (
-          <>
-            <button type="button" className="onboarding-cta" onClick={handleInstall}>
-              Instalar app
-            </button>
-            <button type="button" className="install-skip" onClick={handleSkip}>
-              Ahora no
-            </button>
-          </>
+          <button type="button" className="onboarding-cta" onClick={handleInstall}>
+            Instalar app
+          </button>
         ) : (iosMode || androidMode) ? (
-          <>
-            <button type="button" className="onboarding-cta" onClick={handleIosInstalled}>
-              Ya la he instalado
-            </button>
-            <button type="button" className="install-skip" onClick={handleSkip}>
-              Ahora no
-            </button>
-          </>
+          <button type="button" className="onboarding-cta" onClick={handleManualInstalled}>
+            Ya la he instalado
+          </button>
         ) : (
-          <>
-            <p className="install-unavail">
-              Tu navegador gestionará la instalación automáticamente cuando estés listo.
-            </p>
-            <button type="button" className="onboarding-cta" onClick={handleSkip}>
-              Ir a la app
-            </button>
-          </>
+          <p className="install-unavail">
+            Abre Esmorzapp desde tu móvil para poder instalarla.
+          </p>
         )}
       </div>
     </main>
