@@ -539,25 +539,6 @@ export function HomeList() {
       />
       <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
 
-      {!isPwa && (
-        <div className="install-nudge" role="complementary">
-          <div className="install-nudge-icon" aria-hidden>
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
-              <rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" strokeWidth="1.8"/>
-              <path d="M12 7v7M9 11l3 3 3-3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="19" r="0.8" fill="currentColor"/>
-            </svg>
-          </div>
-          <div className="install-nudge-body">
-            <span className="install-nudge-title">Instala la aplicación</span>
-            <span className="install-nudge-sub">Acceso rápido, sin navegador</span>
-          </div>
-          <button type="button" className="install-nudge-btn" onClick={handleInstall}>
-            Instalar
-          </button>
-        </div>
-      )}
-
       <header className="home-top-bar">
         <div className="home-brand">
           <IconCroissant />
@@ -590,6 +571,25 @@ export function HomeList() {
           )}
         </div>
       </header>
+
+      {!isPwa && (
+        <div className="install-nudge" role="complementary">
+          <div className="install-nudge-icon" aria-hidden>
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+              <rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" strokeWidth="1.8"/>
+              <path d="M12 7v7M9 11l3 3 3-3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="19" r="0.8" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className="install-nudge-body">
+            <span className="install-nudge-title">Instala la aplicación</span>
+            <span className="install-nudge-sub">Acceso rápido, sin navegador</span>
+          </div>
+          <button type="button" className="install-nudge-btn" onClick={handleInstall}>
+            Instalar
+          </button>
+        </div>
+      )}
 
       <h1 className="home-greeting">¿Dónde toca almorzar hoy, {nom}?</h1>
 

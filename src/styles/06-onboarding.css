@@ -761,11 +761,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin: 0.75rem var(--space-5) 0;
-  padding: 0.85rem 1rem;
+  padding: 0.75rem var(--space-5);
   background: rgba(224, 150, 30, 0.1);
-  border: 1px solid rgba(224, 150, 30, 0.22);
-  border-radius: var(--radius-lg);
+  border-bottom: 1px solid rgba(224, 150, 30, 0.22);
 }
 .install-nudge-icon {
   flex-shrink: 0;
