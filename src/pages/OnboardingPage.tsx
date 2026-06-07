@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
 
 /* ─── Shared icons ─────────────────────────────────────────────── */
@@ -58,25 +58,50 @@ type OnboardingShellProps = {
 function OnboardingShell({ step, children }: OnboardingShellProps) {
   const navigate = useNavigate()
   const touchStartX = useRef<number | null>(null)
+  const [dragX, setDragX] = useState(0)
+  const [dragging, setDragging] = useState(false)
 
   function onTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX
+    setDragging(true)
+  }
+
+  function onTouchMove(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const delta = e.touches[0].clientX - touchStartX.current
+    // Amortigua el gesto si no hay pantalla en esa dirección
+    const canNext = step === 1 && delta < 0
+    const canPrev = step === 2 && delta > 0
+    setDragX((canNext || canPrev) ? delta : delta * 0.12)
   }
 
   function onTouchEnd(e: React.TouchEvent) {
     if (touchStartX.current === null) return
-    const delta = touchStartX.current - e.changedTouches[0].clientX
+    const delta = e.changedTouches[0].clientX - touchStartX.current
     touchStartX.current = null
-    if (Math.abs(delta) < 50) return
-    if (delta > 0 && step === 1) navigate('/onboarding/2')
-    if (delta < 0 && step === 2) navigate('/onboarding/1')
+    setDragging(false)
+
+    if (delta < -60 && step === 1) {
+      setDragX(-window.innerWidth)
+      setTimeout(() => { setDragX(0); navigate('/onboarding/2') }, 220)
+    } else if (delta > 60 && step === 2) {
+      setDragX(window.innerWidth)
+      setTimeout(() => { setDragX(0); navigate('/onboarding/1') }, 220)
+    } else {
+      setDragX(0)
+    }
   }
 
   return (
     <main
       className="page onboarding-page"
       aria-label={`Pantalla de bienvenida ${step} de 2`}
+      style={{
+        transform: `translateX(${dragX}px)`,
+        transition: dragging ? 'none' : 'transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      }}
       onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
       <div className="onboarding-topbar">
@@ -85,10 +110,6 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
             <IconCroissant />
           </span>
           Esmorzapp
-        </div>
-        <div className="onboarding-progress" aria-label={`Paso ${step} de 2`}>
-          <span className={`onboarding-dot${step === 1 ? ' onboarding-dot--active' : ''}`} />
-          <span className={`onboarding-dot${step === 2 ? ' onboarding-dot--active' : ''}`} />
         </div>
       </div>
       {children}
@@ -154,6 +175,10 @@ export function OnboardingScreen1() {
       </div>
 
       <div className="onboarding-footer">
+        <div className="onboarding-progress" aria-label="Paso 1 de 2">
+          <span className="onboarding-dot onboarding-dot--active" />
+          <span className="onboarding-dot" />
+        </div>
         <button
           type="button"
           className="onboarding-cta"
@@ -161,7 +186,6 @@ export function OnboardingScreen1() {
         >
           Siguiente
         </button>
-        <span className="onboarding-step-label">1 de 2</span>
       </div>
     </OnboardingShell>
   )
@@ -241,10 +265,13 @@ export function OnboardingScreen2() {
       </div>
 
       <div className="onboarding-footer">
+        <div className="onboarding-progress" aria-label="Paso 2 de 2">
+          <span className="onboarding-dot" />
+          <span className="onboarding-dot onboarding-dot--active" />
+        </div>
         <button type="button" className="onboarding-cta" onClick={handleNext}>
           Crear mi cuenta
         </button>
-        <span className="onboarding-step-label">2 de 2</span>
       </div>
     </OnboardingShell>
   )
