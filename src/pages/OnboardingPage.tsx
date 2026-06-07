@@ -88,38 +88,71 @@ export function OnboardingScreen1() {
         Guarda cada esmorzar con fotos, valoración y todos los detalles para recordarlo siempre.
       </p>
 
-      {/* Hero — mock almuerzo card */}
-      <div className="onboarding-hero" aria-hidden>
-        <div className="onboarding-preview-card">
-          <div className="onboarding-preview-photo">
-            <span className="onboarding-preview-photo-emoji">🥖</span>
-            <span className="onboarding-preview-photo-badge">3 fotos</span>
-          </div>
-          <div className="onboarding-preview-body">
-            <div className="onboarding-preview-top-row">
-              <div>
-                <div className="onboarding-preview-bar">Bar Pepita</div>
-                <div className="onboarding-preview-loc">
-                  <IconLocationPin />
-                  <span>Russafa, València</span>
-                </div>
-              </div>
-              <span className="onboarding-preview-price">8,50&nbsp;€</span>
-            </div>
-            <div className="onboarding-preview-stars" aria-label="Valoración: 4 de 5 estrellas">
-              ★★★★☆
-            </div>
-            <div className="onboarding-preview-boc-row">
-              <span className="onboarding-preview-boc-label">Bocadillo:</span>
-              <span className="onboarding-preview-boc-name">Llonganissa i pebrot</span>
-            </div>
-            <div className="onboarding-preview-chips">
-              <span className="detail-static-chip">Cremaet</span>
-              <span className="detail-static-chip">Cacaus</span>
-              <span className="detail-static-chip">Olives</span>
+      {/* Hero — formulario a medio rellenar */}
+      <div className="onboarding-hero onboarding-hero--form" aria-hidden>
+        <div className="onboarding-form-card">
+
+          {/* Cabecera del bar */}
+          <div className="onboarding-form-header">
+            <p className="onboarding-form-date">Hoy, 7 de junio</p>
+            <h2 className="onboarding-form-bar">Bar Pepita</h2>
+            <div className="onboarding-preview-loc">
+              <IconLocationPin />
+              <span>Russafa, València</span>
             </div>
           </div>
+
+          {/* Bocadillo */}
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Bocadillo</span>
+            <div className="onboarding-form-input">
+              <span className="onboarding-form-input-text">Llonganissa i pebrot</span>
+              <span className="onboarding-form-cursor" />
+            </div>
+          </div>
+
+          {/* Gasto */}
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Gasto</span>
+            <div className="onboarding-form-chips-grid">
+              <span className="form-gasto-chip form-option is-selected">
+                <span className="form-gasto-chip-emoji">☕</span>
+                <span className="form-gasto-chip-label">Cremaet</span>
+              </span>
+              <span className="form-gasto-chip form-option is-selected">
+                <span className="form-gasto-chip-emoji">🥜</span>
+                <span className="form-gasto-chip-label">Cacaus</span>
+              </span>
+              <span className="form-gasto-chip form-option">
+                <span className="form-gasto-chip-emoji">🫒</span>
+                <span className="form-gasto-chip-label">Olives</span>
+              </span>
+              <span className="form-gasto-chip form-option">
+                <span className="form-gasto-chip-emoji">🍺</span>
+                <span className="form-gasto-chip-label">Cervesa</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Bebida */}
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Bebida</span>
+            <div className="onboarding-form-drink-row">
+              <span className="onboarding-form-drink form-option is-selected">🍺 Cervesa</span>
+              <span className="onboarding-form-drink form-option">💧 Agua</span>
+            </div>
+          </div>
+
+          {/* Nota — parcial, se recorta */}
+          <div className="onboarding-form-section">
+            <span className="detail-static-label detail-static-label--accent">Nota personal</span>
+            <div className="onboarding-form-textarea">
+              El pan estaba crujiente y el cremaet perfecto. Repetiría sin dudar…
+            </div>
+          </div>
+
         </div>
+        <div className="onboarding-form-fade" />
       </div>
 
       <div className="onboarding-footer">

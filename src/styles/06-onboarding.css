@@ -234,6 +234,141 @@
   letter-spacing: 0.03em;
 }
 
+/* ——— Screen 1: form hero ——— */
+
+.onboarding-hero--form {
+  position: relative;
+  overflow: hidden;
+  max-height: 22rem;
+  justify-content: flex-start;
+}
+
+.onboarding-form-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-2);
+  padding: 1rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.onboarding-form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.onboarding-form-date {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-fg-subtle);
+  letter-spacing: 0.01em;
+}
+
+.onboarding-form-bar {
+  margin: 0.15rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-fg);
+}
+
+.onboarding-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.onboarding-form-input {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.75rem;
+  font-size: var(--text-md);
+  color: var(--color-fg);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.onboarding-form-input-text {
+  flex: 1;
+  font-size: var(--text-md);
+  font-weight: 400;
+}
+
+.onboarding-form-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--color-primary);
+  border-radius: 1px;
+  animation: onboarding-blink 1s step-end infinite;
+}
+
+@keyframes onboarding-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.onboarding-form-chips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.onboarding-form-drink-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.onboarding-form-drink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-fg);
+  gap: 0.35rem;
+}
+
+.onboarding-form-drink.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark, var(--color-primary));
+}
+
+.onboarding-form-textarea {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.75rem;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.onboarding-form-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: linear-gradient(to bottom, transparent, var(--color-bg));
+  pointer-events: none;
+}
+
 /* ——— Screen 2: diary hero ——— */
 
 .onboarding-hero--diary {
