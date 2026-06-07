@@ -84,8 +84,19 @@ export function InstallPage() {
 
     const handler = (e: Event) => {
       e.preventDefault()
-      deferredPrompt.current = e as BeforeInstallPromptEvent
+      const prompt = e as BeforeInstallPromptEvent
+      deferredPrompt.current = prompt
       setCanInstall(true)
+      // Lanzar el prompt automáticamente al llegar a la pantalla
+      void prompt.prompt()
+      void prompt.userChoice.then((choice) => {
+        deferredPrompt.current = null
+        if (choice.outcome === 'accepted') {
+          markInstallDone()
+          setSearchHint(true)
+        }
+        // Si lo descarta, se quedan los pasos manuales visibles
+      })
     }
     window.addEventListener('beforeinstallprompt', handler)
 
@@ -102,18 +113,16 @@ export function InstallPage() {
   }, [navigate])
 
   function handleInstall() {
-    if (deferredPrompt.current) {
-      void deferredPrompt.current.prompt()
-      void deferredPrompt.current.userChoice.then((choice) => {
-        deferredPrompt.current = null
+    const prompt = deferredPrompt.current
+    if (!prompt) return
+    void prompt.prompt()
+    void prompt.userChoice.then((choice) => {
+      deferredPrompt.current = null
+      if (choice.outcome === 'accepted') {
         markInstallDone()
-        if (choice.outcome === 'accepted') {
-          setSearchHint(true)
-        } else {
-          navigate('/', { replace: true })
-        }
-      })
-    }
+        setSearchHint(true)
+      }
+    })
   }
 
   function handleManualInstalled() {
