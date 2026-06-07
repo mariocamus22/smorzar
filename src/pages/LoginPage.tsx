@@ -68,7 +68,13 @@ export function LoginPage() {
         ? await supabase.auth.signInWithPassword({ email: emailNorm, password: shared })
         : allowPassword && password.trim()
           ? await supabase.auth.signInWithPassword({ email: trimmed, password: password.trim() })
-          : await supabase.auth.signInWithOtp({ email: trimmed, options: { emailRedirectTo: `${window.location.origin}/` } })
+          : await supabase.auth.signInWithOtp({
+              email: trimmed,
+              options: {
+                emailRedirectTo: `${window.location.origin}/`,
+                data: name.trim() ? { full_name: name.trim() } : undefined,
+              },
+            })
 
       if (res.error) {
         setErr(formatSupabaseError(res.error) || 'Algo ha ido mal. Inténtalo de nuevo.')

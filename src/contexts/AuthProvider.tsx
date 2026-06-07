@@ -1,6 +1,6 @@
 import type { Session } from '@supabase/supabase-js'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
-import { fetchProfile } from '../lib/almuerzosApi'
+import { fetchProfile, upsertProfileDisplayName } from '../lib/almuerzosApi'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
 import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
@@ -149,7 +149,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void (async () => {
       setProfileLoading(true)
       try {
-        const p = await fetchProfile(effectiveUserId)
+        let p = await fetchProfile(effectiveUserId)
+        // Si el perfil no tiene nombre pero el usuario introdujo uno al registrarse,
+        // lo guardamos ahora (viene en user_metadata.full_name via signInWithOtp data).
+        const metaName = (session?.user?.user_metadata?.full_name as string | undefined)?.trim()
+        if (metaName && (!p?.display_name || !p.display_name.trim())) {
+          await upsertProfileDisplayName(effectiveUserId, metaName)
+          p = await fetchProfile(effectiveUserId)
+        }
         if (!cancelled) setProfile(p)
       } finally {
         if (!cancelled) setProfileLoading(false)

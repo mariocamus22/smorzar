@@ -198,6 +198,18 @@ export async function fetchProfile(userId: string): Promise<UserProfile | null> 
   return rowToProfile(data as Record<string, unknown>)
 }
 
+/**
+ * Guarda el nombre de pantalla en profiles.display_name si aún no tiene valor.
+ * Se llama automáticamente tras autenticarse cuando el usuario introdujo su nombre en el login.
+ */
+export async function upsertProfileDisplayName(userId: string, displayName: string): Promise<void> {
+  if (!displayName.trim()) return
+  const { error } = await supabase
+    .from('profiles')
+    .upsert({ id: userId, display_name: displayName.trim() }, { onConflict: 'id', ignoreDuplicates: false })
+  if (error) console.warn('[upsertProfileDisplayName]', error.message)
+}
+
 /** Umbrales de niveles (público, ordenados por min_meals ascendente). */
 export async function listLevels(): Promise<LevelRow[]> {
   const { data, error } = await supabase
