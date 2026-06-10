@@ -20,8 +20,10 @@ export function formatSupabaseError(err: unknown): string {
   if (e.status === 401 || e.status === 403) {
     return 'Acceso no autorizado. Inicia sesión de nuevo.'
   }
-  if (e.message && e.message.length < 200) {
-    return e.message
+  // Descartar mensajes vacíos o que sean JSON crudo como "{}" o "[]"
+  const cleaned = e.message?.trim() ?? ''
+  if (cleaned && cleaned !== '{}' && cleaned !== '[]' && cleaned.length < 200) {
+    return cleaned
   }
   return 'Ha ocurrido un error. Inténtalo de nuevo en unos segundos.'
 }

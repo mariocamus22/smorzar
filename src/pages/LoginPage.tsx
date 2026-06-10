@@ -77,7 +77,19 @@ export function LoginPage() {
             })
 
       if (res.error) {
-        setErr(formatSupabaseError(res.error) || 'Algo ha ido mal. Inténtalo de nuevo.')
+        const msg = formatSupabaseError(res.error)
+        // Rate limit de Supabase (429) o "over_email_send_rate_limit"
+        const raw = (res.error as { message?: string; code?: string }).message ?? ''
+        const code = (res.error as { code?: string }).code ?? ''
+        if (
+          (res.error as { status?: number }).status === 429 ||
+          raw.toLowerCase().includes('rate') ||
+          code === 'over_email_send_rate_limit'
+        ) {
+          setErr('Has enviado demasiadas solicitudes. Espera unos minutos e inténtalo de nuevo.')
+        } else {
+          setErr(msg || 'Algo ha ido mal. Inténtalo de nuevo.')
+        }
         return
       }
       if (useAutoLogin || (allowPassword && password.trim())) return
