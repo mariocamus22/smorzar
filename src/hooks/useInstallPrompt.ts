@@ -34,8 +34,8 @@ export function useInstallPrompt() {
   useEffect(() => {
     if (isPwa) return
     const handler = (e: Event) => {
-      // Suprimimos la mini-barra automática de Chrome para controlar nosotros cuándo aparece.
-      e.preventDefault()
+      // NO llamamos e.preventDefault() → Chrome muestra su barra nativa automáticamente.
+      // Guardamos el evento para que el botón del banner también pueda lanzar prompt().
       const bipe = e as BeforeInstallPromptEvent
       deferredPrompt.current = bipe
       setCanInstall(true)

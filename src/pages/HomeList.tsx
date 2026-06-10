@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useInstallPrompt } from '../hooks/useInstallPrompt'
 import { InstallModal } from '../components/InstallModal'
@@ -395,20 +395,6 @@ export function HomeList() {
   const [installOpen, setInstallOpen] = useState(false)
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, canInstall, triggerPrompt, waitForPrompt } = useInstallPrompt()
-
-  // Auto-mostrar modal de instalación cuando el navegador emite beforeinstallprompt.
-  // Solo una vez por visita (hasAutoShown evita que se reabra si el usuario lo cierra).
-  const hasAutoShown = useRef(false)
-  useEffect(() => {
-    if (isPwa || hasAutoShown.current) return
-    // Esperamos a que llegue el evento (hasta 6 s) y abrimos el modal al instante
-    waitForPrompt(6000).then((prompt) => {
-      if (prompt && !hasAutoShown.current) {
-        hasAutoShown.current = true
-        setInstallOpen(true)
-      }
-    })
-  }, [isPwa, waitForPrompt])
 
   async function handleInstall() {
     setInstallOpen(false)
