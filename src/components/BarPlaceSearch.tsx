@@ -84,7 +84,7 @@ export const BarPlaceSearch = forwardRef<HTMLInputElement, Props>(function BarPl
   useEffect(() => {
     if (!trimmedKey) {
       console.info(
-        '[Esmorzapp] Sin VITE_GOOGLE_MAPS_API_KEY en este build: el campo Bar es solo texto. En Vercel, añade la variable (Production + Preview) y vuelve a desplegar.',
+        '[Smorzar] Sin VITE_GOOGLE_MAPS_API_KEY en este build: el campo Bar es solo texto. En Vercel, añade la variable (Production + Preview) y vuelve a desplegar.',
       )
     }
   }, [trimmedKey])
@@ -133,7 +133,7 @@ export const BarPlaceSearch = forwardRef<HTMLInputElement, Props>(function BarPl
         })
       } catch (e) {
         console.warn(
-          '[Esmorzapp] No se pudo cargar Google Places (Maps JS). Revisa la clave VITE_GOOGLE_MAPS_API_KEY en el build de Vercel y las APIs/referentes en Google Cloud.',
+          '[Smorzar] No se pudo cargar Google Places (Maps JS). Revisa la clave VITE_GOOGLE_MAPS_API_KEY en el build de Vercel y las APIs/referentes en Google Cloud.',
           e,
         )
       }

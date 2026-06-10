@@ -1,5 +1,5 @@
 /** Debe coincidir con el script inline en index.html (anti-FOUC). */
-export const THEME_STORAGE_KEY = 'esmorzapp-theme'
+export const THEME_STORAGE_KEY = 'smorzar-theme'
 
 export type ThemeMode = 'light' | 'dark'
 

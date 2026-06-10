@@ -1,5 +1,5 @@
-const ONBOARDING_KEY = 'esmorzapp-onboarding-v1'
-const INSTALL_KEY = 'esmorzapp-install-v1'
+const ONBOARDING_KEY = 'smorzar-onboarding-v1'
+const INSTALL_KEY = 'smorzar-install-v1'
 
 function readFlag(key: string): boolean {
   try {

@@ -32,7 +32,7 @@ export function InstallModal({ open, onClose }: Props) {
     </ol>
   ) : (
     <p className="install-modal-desc">
-      Abre Esmorzapp desde tu móvil para instalarla como app nativa.
+      Abre Smorzar desde tu móvil para instalarla como app nativa.
     </p>
   )
 
@@ -46,7 +46,7 @@ export function InstallModal({ open, onClose }: Props) {
         aria-labelledby={titleId}
       >
         <div className="install-modal-head">
-          <h2 id={titleId} className="install-modal-title">Instalar Esmorzapp</h2>
+          <h2 id={titleId} className="install-modal-title">Instalar Smorzar</h2>
           <button type="button" className="install-modal-close" onClick={onClose} aria-label="Cerrar">✕</button>
         </div>
 
@@ -74,7 +74,7 @@ export function InstallModal({ open, onClose }: Props) {
         {/* Fallback para navegadores sin soporte PWA */}
         {!canInstall && !ios && !android && (
           <p className="install-modal-desc">
-            Abre Esmorzapp desde tu móvil para instalarla como app nativa.
+            Abre Smorzar desde tu móvil para instalarla como app nativa.
           </p>
         )}
       </div>

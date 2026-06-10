@@ -108,7 +108,7 @@ export function LoginPage() {
   return (
     <main id={MAIN_CONTENT_ID} className="login-page">
       <div className="login-hero">
-        <h1 className="login-title">Accede a Esmorzapp</h1>
+        <h1 className="login-title">Accede a Smorzar</h1>
         <p className="login-subtitle">
           Te enviaremos un enlace directo al email para poder acceder — sin contraseñas ni pasos extra.
         </p>

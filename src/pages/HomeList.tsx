@@ -181,7 +181,7 @@ function IconViewCalendar({ className }: { className?: string }) {
   )
 }
 
-const HOME_RECENT_VIEW_KEY = 'esmorzapp-home-recent-view'
+const HOME_RECENT_VIEW_KEY = 'smorzar-home-recent-view'
 
 type RecentViewMode = 'list' | 'calendar'
 
@@ -561,7 +561,7 @@ export function HomeList() {
               <div className="install-success-app-icon">
                 <IconCroissant />
               </div>
-              <p className="install-success-app-label">Esmorzapp</p>
+              <p className="install-success-app-label">Smorzar</p>
               <div className="install-success-phone-dots install-success-phone-dots--bottom">
                 {[0,1,2,3,4].map(i => <span key={i} className="install-success-phone-dot" />)}
               </div>
@@ -588,7 +588,7 @@ export function HomeList() {
       <header className="home-top-bar">
         <div className="home-brand">
           <IconCroissant />
-          <span className="home-brand-name">Esmorzapp</span>
+          <span className="home-brand-name">Smorzar</span>
         </div>
         <div className="home-top-actions">
           <button
@@ -610,7 +610,7 @@ export function HomeList() {
               className="home-install-btn"
               onClick={handleInstall}
               aria-label="Instalar aplicación"
-              title="Instalar Esmorzapp en tu móvil"
+              title="Instalar Smorzar en tu móvil"
             >
               <IconDownload />
             </button>

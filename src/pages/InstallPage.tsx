@@ -145,12 +145,12 @@ export function InstallPage() {
           <div className="install-icon">
             <IconCroissant />
           </div>
-          <span className="install-icon-label">Esmorzapp</span>
+          <span className="install-icon-label">Smorzar</span>
         </div>
         <h1 className="onboarding-headline install-headline">¡Ya casi está!</h1>
         <p className="onboarding-subhead">
           {androidMode
-            ? 'Desliza hacia arriba desde tu pantalla de inicio para ver el cajón de apps, o búscala por nombre. Esmorzapp aparece como cualquier otra aplicación.'
+            ? 'Desliza hacia arriba desde tu pantalla de inicio para ver el cajón de apps, o búscala por nombre. Smorzar aparece como cualquier otra aplicación.'
             : 'Búscala entre las aplicaciones de tu móvil y ábrela desde ahí para usarla sin el navegador.'}
         </p>
         <div className="install-search-hint" aria-hidden>
@@ -189,7 +189,7 @@ export function InstallPage() {
         <span className="install-step-icon install-step-icon--check"><IconCheck /></span>
         <div className="install-step-text">
           <span className="install-step-title">Confirma pulsando «Añadir»</span>
-          <span className="install-step-desc">Aparecerá el icono de Esmorzapp en tu pantalla de inicio</span>
+          <span className="install-step-desc">Aparecerá el icono de Smorzar en tu pantalla de inicio</span>
         </div>
       </div>
     </div>
@@ -226,11 +226,11 @@ export function InstallPage() {
         <div className="install-icon">
           <IconCroissant />
         </div>
-        <span className="install-icon-label">Esmorzapp</span>
+        <span className="install-icon-label">Smorzar</span>
       </div>
 
       <h1 className="onboarding-headline install-headline">
-        Añade Esmorzapp a tu móvil
+        Añade Smorzar a tu móvil
       </h1>
       <p className="onboarding-subhead">
         Accede como una app nativa, sin barras del navegador y con acceso rápido desde tu pantalla de inicio.
@@ -249,7 +249,7 @@ export function InstallPage() {
           </button>
         ) : (
           <p className="install-unavail">
-            Abre Esmorzapp desde tu móvil para poder instalarla.
+            Abre Smorzar desde tu móvil para poder instalarla.
           </p>
         )}
       </div>

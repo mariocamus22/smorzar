@@ -1,4 +1,4 @@
-/* Form pas 1 — bar + data (identitat Esmorzapp) */
+/* Form pas 1 — bar + data (identitat Smorzar) */
 .form-flow--step1 {
   min-height: calc(100dvh - 3.25rem);
   max-height: calc(100dvh - 3.25rem);
@@ -290,7 +290,7 @@ button.form-flow-back:hover {
   min-width: 7rem;
 }
 
-/* Form pasos 2–4: header + tabs + contingut + footer (guia visual Esmorzapp) */
+/* Form pasos 2–4: header + tabs + contingut + footer (guia visual Smorzar) */
 .form-flow--mid {
   min-height: calc(100dvh - 3.5rem);
   max-height: calc(100dvh - 3.5rem);

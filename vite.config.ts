@@ -28,8 +28,8 @@ export default defineConfig({
       },
       includeAssets: ['favicon.svg', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'Esmorzapp',
-        short_name: 'Esmorzapp',
+        name: 'Smorzar',
+        short_name: 'Smorzar',
         description: 'Registro de tus almuerzos',
         theme_color: '#0f172a',
         background_color: '#0f172a',

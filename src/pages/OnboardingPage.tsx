@@ -102,7 +102,7 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
           <span className="onboarding-brand-logo">
             <IconCroissant />
           </span>
-          Esmorzapp
+          Smorzar
         </div>
       </div>
       {children}
