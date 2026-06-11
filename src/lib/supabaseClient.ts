@@ -18,6 +18,8 @@ export const supabase = createClient(url ?? '', anonKey ?? '', {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
-    flowType: 'pkce',
+    // 'implicit': el token va en el hash de la URL → funciona desde cualquier navegador,
+    // incluidos in-app browsers de Gmail/WhatsApp donde PKCE falla por falta de localStorage compartido.
+    flowType: 'implicit',
   },
 })
