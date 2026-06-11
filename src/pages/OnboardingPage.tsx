@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { useRef, useState, useEffect } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
 import { IconEsmorzar } from '../components/IconEsmorzar'
-import { SmorzarLogo } from '../components/SmorzarLogo'
 
 function IconLocationPin() {
   return (
@@ -105,9 +104,15 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
         >
           <div className="onboarding-topbar">
             <div className="onboarding-brand">
-              <span className="onboarding-brand-logo">
-                <SmorzarLogo size={28} />
-              </span>
+              <img
+                src="/assets/icons/icon-s/icon-s-96x96.png"
+                width={28}
+                height={28}
+                alt=""
+                aria-hidden
+                className="onboarding-brand-logo"
+                style={{ borderRadius: 7, display: 'block', flexShrink: 0 }}
+              />
               Smorzar
             </div>
           </div>
