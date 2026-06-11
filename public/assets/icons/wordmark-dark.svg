@@ -1,0 +1,21 @@
+<svg viewBox="0 0 2048 512" width="2048" height="512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" x="0" y="0" width="256" height="256" patternUnits="userSpaceOnUse">
+      <line x1="256" y1="0" x2="256" y2="256" stroke="#32302A" stroke-width="1.5"/>
+      <line x1="0" y1="256" x2="256" y2="256" stroke="#32302A" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+  <rect width="2048" height="512" fill="#26231E"/>
+  <rect width="2048" height="512" fill="url(#grid)"/>
+  <rect x="16" y="16" width="2016" height="480" fill="none" stroke="#3A3228" stroke-width="2"/>
+  <text x="1028" y="308" text-anchor="middle"
+    font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+    font-size="228" font-weight="700" fill="#4A2C04" letter-spacing="36">SMORZAR</text>
+  <text x="1024" y="304" text-anchor="middle"
+    font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+    font-size="228" font-weight="700" fill="#C97B0A" letter-spacing="36">SMORZAR</text>
+  <text x="1024" y="298" text-anchor="middle"
+    font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+    font-size="228" font-weight="700" fill="#E8960E" letter-spacing="36" opacity="0.35">SMORZAR</text>
+  <line x1="200" y1="344" x2="1848" y2="344" stroke="#7A4A06" stroke-width="3"/>
+</svg>

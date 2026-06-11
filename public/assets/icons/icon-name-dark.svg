@@ -4,24 +4,27 @@
   </defs>
   <rect width="1024" height="1024" rx="224" fill="#26231E"/>
   <g clip-path="url(#rounded)">
-    <!-- grid centered on 512,512 — S sits exactly in the middle cell -->
+    <!-- grid centered on 512,512 -->
     <line x1="170.7" y1="0" x2="170.7" y2="1024" stroke="#32302A" stroke-width="2"/>
     <line x1="512"   y1="0" x2="512"   y2="1024" stroke="#32302A" stroke-width="2"/>
     <line x1="853.3" y1="0" x2="853.3" y2="1024" stroke="#32302A" stroke-width="2"/>
     <line x1="0" y1="170.7" x2="1024" y2="170.7" stroke="#32302A" stroke-width="2"/>
     <line x1="0" y1="512"   x2="1024" y2="512"   stroke="#32302A" stroke-width="2"/>
     <line x1="0" y1="853.3" x2="1024" y2="853.3" stroke="#32302A" stroke-width="2"/>
-    <!-- S shadow -->
-    <text x="516" y="522" text-anchor="middle" dominant-baseline="central"
+    <!-- ornament lines -->
+    <line x1="160" y1="422" x2="864" y2="422" stroke="#7A4A06" stroke-width="3"/>
+    <line x1="160" y1="602" x2="864" y2="602" stroke="#7A4A06" stroke-width="3"/>
+    <!-- shadow -->
+    <text x="516" y="514" text-anchor="middle" dominant-baseline="central"
       font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
-      font-size="600" font-weight="700" fill="#4A2C04">S</text>
-    <!-- S main -->
-    <text x="512" y="520" text-anchor="middle" dominant-baseline="central"
+      font-size="110" font-weight="700" fill="#4A2C04" letter-spacing="8">SMORZAR</text>
+    <!-- main -->
+    <text x="512" y="512" text-anchor="middle" dominant-baseline="central"
       font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
-      font-size="600" font-weight="700" fill="#C97B0A">S</text>
-    <!-- S highlight -->
-    <text x="512" y="518" text-anchor="middle" dominant-baseline="central"
+      font-size="110" font-weight="700" fill="#C97B0A" letter-spacing="8">SMORZAR</text>
+    <!-- highlight -->
+    <text x="512" y="510" text-anchor="middle" dominant-baseline="central"
       font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
-      font-size="600" font-weight="700" fill="#E8960E" opacity="0.42">S</text>
+      font-size="110" font-weight="700" fill="#E8960E" letter-spacing="8" opacity="0.38">SMORZAR</text>
   </g>
 </svg>
