@@ -1078,6 +1078,27 @@
   font-weight: 500;
 }
 
+/* In-app browser fallback */
+.install-modal-inapp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.install-modal-inapp-desc {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  line-height: 1.6;
+}
+
+/* Aviso cuando el prompt aún no está disponible */
+.install-modal-hint {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-fg-subtle);
+  text-align: center;
+}
+
 /* ——— Install overlay (installing / success) ——— */
 .install-overlay {
   display: flex;

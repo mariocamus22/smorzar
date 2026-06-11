@@ -378,7 +378,7 @@ export function HomeList() {
   const [error, setError] = useState<string | null>(null)
   const [installOpen, setInstallOpen] = useState(false)
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
-  const { isPwa, triggerPrompt } = useInstallPrompt()
+  const { isPwa, triggerPrompt, canInstall } = useInstallPrompt()
 
   async function handleInstall() {
     // Siempre abrir primero el panel con instrucciones + CTA.
@@ -570,7 +570,7 @@ export function HomeList() {
         onClose={dismissFirstAlmuerzoCelebration}
         levelLabel={profile?.level?.label}
       />
-      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} />
+      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} canInstall={canInstall} />
 
       <header className="home-top-bar">
         <div className="home-brand">

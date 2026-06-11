@@ -22,6 +22,26 @@ export function isAndroidChrome(): boolean {
   return /Android/.test(navigator.userAgent) && !isIosSafari()
 }
 
+/**
+ * Detecta navegadores in-app que no disparan beforeinstallprompt:
+ * Outlook, Gmail/GSA, WhatsApp, Instagram, Facebook, WebViews genéricos.
+ */
+export function isInAppBrowser(): boolean {
+  const ua = navigator.userAgent
+  return (
+    // Outlook (Android e iOS)
+    /Outlook-Android|Outlook-iOS|com\.microsoft\.outlook|ms-outlook/i.test(ua) ||
+    // Gmail / Google App
+    /\bGSA\b/.test(ua) ||
+    // Facebook / Instagram / WhatsApp
+    /\bFBAN\b|\bFBAV\b|\bFBIOS\b|\bInstagram\b|\bWhatsApp\b/.test(ua) ||
+    // Android WebView genérico (sin Chrome package)
+    (/Android/.test(ua) && /wv\b/.test(ua)) ||
+    // iOS WebView (sin Safari)
+    (/iPhone|iPad|iPod/.test(ua) && !/Safari/.test(ua))
+  )
+}
+
 export function useInstallPrompt() {
   const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null)
   // Resolvers que esperan a que llegue el evento beforeinstallprompt
