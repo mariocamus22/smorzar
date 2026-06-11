@@ -381,16 +381,19 @@ export function HomeList() {
   const { isPwa, triggerPrompt } = useInstallPrompt()
 
   async function handleInstall() {
-    setInstallOpen(false)
+    // Siempre abrir primero el panel con instrucciones + CTA.
+    // El CTA del modal llamará a triggerInstallPrompt() para lanzar el prompt nativo.
+    setInstallOpen(true)
+  }
+
+  async function triggerInstallPrompt() {
     setInstallPhase('installing')
-    // triggerPrompt ya espera hasta 4 s si el evento no ha llegado aún
     const ok = await triggerPrompt()
     if (ok) {
+      setInstallOpen(false)
       setInstallPhase('success')
     } else {
-      // Si no hay soporte nativo, mostrar instrucciones manuales
       setInstallPhase('idle')
-      setInstallOpen(true)
     }
   }
   const [levels, setLevels] = useState<LevelRow[]>([])
@@ -567,7 +570,7 @@ export function HomeList() {
         onClose={dismissFirstAlmuerzoCelebration}
         levelLabel={profile?.level?.label}
       />
-      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
+      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} installing={installPhase === 'installing'} />
 
       <header className="home-top-bar">
         <div className="home-brand">

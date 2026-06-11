@@ -1,25 +1,19 @@
-import { useId, useState } from 'react'
-import { useInstallPrompt, isIosSafari, isAndroidChrome } from '../hooks/useInstallPrompt'
+import { useId } from 'react'
+import { isIosSafari, isAndroidChrome, isRunningAsPwa } from '../hooks/useInstallPrompt'
 
-type Props = { open: boolean; onClose: () => void }
+type Props = {
+  open: boolean
+  onClose: () => void
+  /** Lanza el prompt nativo de Chrome — lo controla el padre */
+  onInstall: () => void
+  installing: boolean
+}
 
-export function InstallModal({ open, onClose }: Props) {
+export function InstallModal({ open, onClose, onInstall, installing }: Props) {
   const titleId = useId()
-  const { triggerPrompt, isPwa } = useInstallPrompt()
-  const [installing, setInstalling] = useState(false)
 
   if (!open) return null
-  if (isPwa) { onClose(); return null }
-
-  async function handleInstall() {
-    setInstalling(true)
-    try {
-      const ok = await triggerPrompt()
-      if (ok) onClose()
-    } finally {
-      setInstalling(false)
-    }
-  }
+  if (isRunningAsPwa()) { onClose(); return null }
 
   const ios = isIosSafari()
   const android = isAndroidChrome()
@@ -52,12 +46,12 @@ export function InstallModal({ open, onClose }: Props) {
           <button type="button" className="install-modal-close" onClick={onClose} aria-label="Cerrar">✕</button>
         </div>
 
-        {/* CTA directo — siempre visible en Android; oculto en iOS (no hay API) */}
+        {/* CTA directo — visible en Android/escritorio; no en iOS (Apple no permite la API) */}
         {!ios && (
           <button
             type="button"
             className="btn btn-primary install-modal-cta"
-            onClick={handleInstall}
+            onClick={onInstall}
             disabled={installing}
           >
             {installing ? 'Abriendo instalador…' : 'Instalar ahora'}
@@ -74,7 +68,7 @@ export function InstallModal({ open, onClose }: Props) {
           </div>
         )}
 
-        {/* Fallback escritorio */}
+        {/* Fallback escritorio sin soporte PWA */}
         {!ios && !android && (
           <p className="install-modal-desc">
             Abre Smorzar desde tu móvil para instalarla como app nativa.
