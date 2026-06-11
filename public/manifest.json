@@ -62,12 +62,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "/assets/og/og-image-1200x630.png",
-      "sizes": "1200x630",
-      "type": "image/png"
-    }
   ]
 }
