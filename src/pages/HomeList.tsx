@@ -394,7 +394,7 @@ export function HomeList() {
   const [error, setError] = useState<string | null>(null)
   const [installOpen, setInstallOpen] = useState(false)
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
-  const { isPwa, canInstall, triggerPrompt, waitForPrompt } = useInstallPrompt()
+  const { isPwa, triggerPrompt } = useInstallPrompt()
 
   async function handleInstall() {
     setInstallOpen(false)
