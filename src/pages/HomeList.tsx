@@ -13,7 +13,7 @@ import type { Almuerzo, LevelRow, UserProfile } from '../types/almuerzo'
 import { FirstAlmuerzoCelebrationModal } from '../components/FirstAlmuerzoCelebrationModal'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 import { IconEsmorzar } from '../components/IconEsmorzar'
-import { SmorzarLogo } from '../components/SmorzarLogo'
+import { SmorzarLogo, SmorzarLogoName } from '../components/SmorzarLogo'
 
 function formatFechaLarga(isoDate: string): string {
   const d = new Date(`${isoDate}T12:00:00`)
@@ -543,7 +543,7 @@ export function HomeList() {
                 {[0,1,2,3].map(i => <span key={i} className="install-success-phone-dot" />)}
               </div>
               <div className="install-success-app-icon">
-                <SmorzarLogo />
+                <SmorzarLogoName size={96} />
               </div>
               <p className="install-success-app-label">Smorzar</p>
               <div className="install-success-phone-dots install-success-phone-dots--bottom">
