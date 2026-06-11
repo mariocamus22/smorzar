@@ -176,21 +176,21 @@ export function OnboardingScreen1() {
 
 const MOCK_ENTRIES = [
   {
-    img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=104&h=104&fit=crop&auto=format',
+    img: '/assets/onboarding-sepia.jpg',
     bar: 'Bar Pepita',
     loc: 'Russafa, València',
     date: '3 de junio de 2025',
     boc: 'Sepia a la plancha',
   },
   {
-    img: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=104&h=104&fit=crop&auto=format',
+    img: '/assets/onboarding-almussafes.jpg',
     bar: 'Bodega La Pascuala',
     loc: 'El Carmen, València',
     date: '28 de mayo de 2025',
     boc: 'Almussafes',
   },
   {
-    img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=104&h=104&fit=crop&auto=format',
+    img: '/assets/onboarding-bar-pilar.jpg',
     bar: 'Bar Pilar',
     loc: 'Ciutat Vella, València',
     date: '21 de mayo de 2025',
