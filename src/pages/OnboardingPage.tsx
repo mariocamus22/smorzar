@@ -177,22 +177,22 @@ export function OnboardingScreen1() {
 const MOCK_ENTRIES = [
   {
     img: '/assets/onboarding-sepia.jpg',
-    bar: 'Bar Pepita',
-    loc: 'Russafa, València',
+    bar: 'Pensat i Fet',
+    loc: 'Cullera, Valencia',
     date: '3 de junio de 2025',
     boc: 'Sepia a la plancha',
   },
   {
     img: '/assets/onboarding-almussafes-2.jpg',
-    bar: 'Bodega La Pascuala',
-    loc: 'El Carmen, València',
+    bar: 'Bar Reyton',
+    loc: 'Sueca, Valencia',
     date: '28 de mayo de 2025',
     boc: 'Almussafes',
   },
   {
     img: '/assets/onboarding-bar-pilar.jpg',
-    bar: 'Bar Pilar',
-    loc: 'Ciutat Vella, València',
+    bar: 'Ca Saoret',
+    loc: 'Tavernes de la Valldigna, Valencia',
     date: '21 de mayo de 2025',
     boc: 'Tortilla de habas y longanizas',
   },
