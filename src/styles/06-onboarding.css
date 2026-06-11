@@ -1154,16 +1154,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 1rem;
-  background: #7c4a14;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
 }
 .install-success-app-icon svg {
-  width: 2rem;
-  height: 2rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
 }
 .install-success-app-label {
   font-size: 0.65rem;
