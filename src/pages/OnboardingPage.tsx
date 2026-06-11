@@ -2,21 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
 import { IconEsmorzar } from '../components/IconEsmorzar'
-
-/* ─── Shared icons ─────────────────────────────────────────────── */
-
-function SmorzarLogo() {
-  return (
-    <img
-      src="/assets/icons/icon-S-dark.svg"
-      width={28}
-      height={28}
-      alt=""
-      aria-hidden
-      style={{ display: 'block' }}
-    />
-  )
-}
+import { SmorzarLogo } from '../components/SmorzarLogo'
 
 function IconLocationPin() {
   return (
@@ -101,7 +87,7 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
       <div className="onboarding-topbar">
         <div className="onboarding-brand">
           <span className="onboarding-brand-logo">
-            <SmorzarLogo />
+            <SmorzarLogo size={28} />
           </span>
           Smorzar
         </div>

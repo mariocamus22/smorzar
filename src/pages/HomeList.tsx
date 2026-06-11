@@ -13,6 +13,7 @@ import type { Almuerzo, LevelRow, UserProfile } from '../types/almuerzo'
 import { FirstAlmuerzoCelebrationModal } from '../components/FirstAlmuerzoCelebrationModal'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 import { IconEsmorzar } from '../components/IconEsmorzar'
+import { SmorzarLogo } from '../components/SmorzarLogo'
 
 function formatFechaLarga(isoDate: string): string {
   const d = new Date(`${isoDate}T12:00:00`)
@@ -80,18 +81,6 @@ function levelHintText(progress: ReturnType<typeof nextLevelProgress>): string {
   return `Añade ${progress.remaining} almuerzos más para pasar al siguiente nivel.`
 }
 
-function SmorzarLogo({ size = 36 }: { size?: number }) {
-  return (
-    <img
-      src="/assets/icons/icon-S-dark.svg"
-      width={size}
-      height={size}
-      alt=""
-      aria-hidden
-      style={{ display: 'block' }}
-    />
-  )
-}
 
 function IconBowlEmpty() {
   return (

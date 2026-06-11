@@ -1,0 +1,25 @@
+<svg viewBox="0 0 1024 1024" width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="rounded"><rect width="1024" height="1024" rx="224"/></clipPath>
+    <pattern id="grid" x="0" y="0" width="341.3" height="341.3" patternUnits="userSpaceOnUse">
+      <line x1="341.3" y1="0" x2="341.3" y2="341.3" stroke="#32302A" stroke-width="2"/>
+      <line x1="0" y1="341.3" x2="341.3" y2="341.3" stroke="#32302A" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="#26231E"/>
+  <g clip-path="url(#rounded)">
+    <rect width="1024" height="1024" fill="url(#grid)"/>
+    <!-- shadow offset -->
+    <text x="518" y="652" text-anchor="middle"
+      font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+      font-size="680" font-weight="700" fill="#4A2C04">S</text>
+    <!-- main — vertically centered: cap-height ~70% of 680 = 476px, center = 512, so baseline = 512 + 476/2 = 750... adjusted visually -->
+    <text x="512" y="640" text-anchor="middle"
+      font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+      font-size="680" font-weight="700" fill="#C97B0A">S</text>
+    <!-- highlight -->
+    <text x="512" y="630" text-anchor="middle"
+      font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+      font-size="680" font-weight="700" fill="#E8960E" opacity="0.42">S</text>
+  </g>
+</svg>
