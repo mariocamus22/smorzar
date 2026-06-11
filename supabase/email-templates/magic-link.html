@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Accede a Smorzar</title>
+  <style>
+    /* Reset */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    body { margin: 0 !important; padding: 0 !important; background-color: #F5F0E8; }
+
+    @media only screen and (max-width: 620px) {
+      .email-container { width: 100% !important; }
+      .hero-padding { padding: 40px 24px 32px !important; }
+      .body-padding { padding: 32px 24px !important; }
+      .footer-padding { padding: 24px 24px !important; }
+      .btn-cta { padding: 16px 32px !important; font-size: 17px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+    Tu enlace de acceso a Smorzar está listo — pulsa para entrar.&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌
+  </div>
+
+  <!-- Wrapper -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#F5F0E8;">
+    <tr>
+      <td align="center" style="padding: 32px 16px 48px;">
+
+        <!-- Email container -->
+        <table class="email-container" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;">
+
+          <!-- HEADER -->
+          <tr>
+            <td class="hero-padding" style="background-color:#26231E; border-radius:16px 16px 0 0; padding:48px 48px 40px; text-align:center;">
+
+              <!-- Logo S -->
+              <div style="margin-bottom:20px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                  <tr>
+                    <td style="width:72px; height:72px; background-color:#26231E; border-radius:16px; border:2px solid #7A4A06; text-align:center; vertical-align:middle;">
+                      <span style="font-family:Georgia,'Times New Roman',serif; font-size:48px; font-weight:700; color:#C97B0A; line-height:72px; display:block;">S</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- App name -->
+              <h1 style="margin:0 0 6px; font-family:Georgia,'Times New Roman',serif; font-size:28px; font-weight:700; color:#E8960E; letter-spacing:3px; text-transform:uppercase;">
+                SMORZAR
+              </h1>
+              <p style="margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:13px; color:#7A5A30; letter-spacing:0.5px;">
+                Tu diario personal de almuerzos
+              </p>
+            </td>
+          </tr>
+
+          <!-- DIVIDER LINE -->
+          <tr>
+            <td style="background-color:#26231E; padding: 0 48px;">
+              <div style="height:1px; background:linear-gradient(to right, transparent, #7A4A06, transparent);"></div>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td class="body-padding" style="background-color:#26231E; padding:40px 48px 48px; border-radius:0 0 16px 16px;">
+
+              <h2 style="margin:0 0 16px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:22px; font-weight:700; color:#F5F0E8; line-height:1.3;">
+                ¡Hola! Tu enlace de acceso está listo 👋
+              </h2>
+
+              <p style="margin:0 0 24px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:15px; color:#B8A890; line-height:1.7;">
+                Has solicitado acceder a <strong style="color:#E8960E;">Smorzar</strong>. Pulsa el botón de abajo para entrar directamente, sin contraseña.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:32px 0;">
+                <tr>
+                  <td align="center">
+                    <a href="{{ .ConfirmationURL }}"
+                       class="btn-cta"
+                       style="display:inline-block; background-color:#C97B0A; color:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:17px; font-weight:700; text-decoration:none; padding:18px 48px; border-radius:999px; letter-spacing:0.3px; mso-padding-alt:0; text-align:center;">
+                      Entrar a Smorzar &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 8px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:14px; color:#7A5A30; line-height:1.6;">
+                A partir de ahora recordarás cada bar al que fuiste, lo que pediste y si mereció la pena 🥖
+              </p>
+
+              <!-- Divider -->
+              <div style="height:1px; background:#3A3530; margin:32px 0;"></div>
+
+              <!-- Fallback link -->
+              <p style="margin:0 0 8px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:13px; color:#5A4A38; line-height:1.6;">
+                ¿El botón no funciona? Copia y pega este enlace en <strong style="color:#7A5A30;">Chrome</strong>:
+              </p>
+              <p style="margin:0; font-family:'Courier New',Courier,monospace; font-size:11px; color:#C97B0A; line-height:1.5; word-break:break-all;">
+                {{ .ConfirmationURL }}
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td class="footer-padding" style="padding:28px 48px; text-align:center;">
+              <p style="margin:0 0 6px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:12px; color:#A09080; line-height:1.6;">
+                Si no has solicitado este acceso, ignora este mensaje. Tu cuenta está segura.
+              </p>
+              <p style="margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:12px; color:#7A6050;">
+                &copy; 2025 Smorzar &middot; Todos los derechos reservados
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Email container -->
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
