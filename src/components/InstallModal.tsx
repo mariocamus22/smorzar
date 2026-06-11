@@ -1,24 +1,30 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { useInstallPrompt, isIosSafari, isAndroidChrome } from '../hooks/useInstallPrompt'
 
 type Props = { open: boolean; onClose: () => void }
 
 export function InstallModal({ open, onClose }: Props) {
   const titleId = useId()
-  const { canInstall, triggerPrompt, isPwa } = useInstallPrompt()
+  const { triggerPrompt, isPwa } = useInstallPrompt()
+  const [installing, setInstalling] = useState(false)
 
   if (!open) return null
   if (isPwa) { onClose(); return null }
 
   async function handleInstall() {
-    const ok = await triggerPrompt()
-    if (ok) onClose()
+    setInstalling(true)
+    try {
+      const ok = await triggerPrompt()
+      if (ok) onClose()
+    } finally {
+      setInstalling(false)
+    }
   }
 
   const ios = isIosSafari()
   const android = isAndroidChrome()
 
-  const steps = ios ? (
+  const manualSteps = ios ? (
     <ol className="install-modal-steps">
       <li>Pulsa el icono <strong>Compartir ↑</strong> en la barra inferior de Safari</li>
       <li>Selecciona <strong>«Añadir a pantalla de inicio»</strong></li>
@@ -30,11 +36,7 @@ export function InstallModal({ open, onClose }: Props) {
       <li>Selecciona <strong>«Instalar app»</strong> o <strong>«Añadir a pantalla de inicio»</strong></li>
       <li>Pulsa <strong>«Instalar»</strong> para confirmar</li>
     </ol>
-  ) : (
-    <p className="install-modal-desc">
-      Abre Smorzar desde tu móvil para instalarla como app nativa.
-    </p>
-  )
+  ) : null
 
   return (
     <div className="install-modal-root" role="presentation">
@@ -50,29 +52,30 @@ export function InstallModal({ open, onClose }: Props) {
           <button type="button" className="install-modal-close" onClick={onClose} aria-label="Cerrar">✕</button>
         </div>
 
-        {/* Botón de instalación directa si el navegador lo permite */}
-        {canInstall && (
+        {/* CTA directo — siempre visible en Android; oculto en iOS (no hay API) */}
+        {!ios && (
           <button
             type="button"
             className="btn btn-primary install-modal-cta"
             onClick={handleInstall}
+            disabled={installing}
           >
-            Instalar con un clic
+            {installing ? 'Abriendo instalador…' : 'Instalar ahora'}
           </button>
         )}
 
-        {/* Instrucciones manuales — siempre visibles como alternativa */}
-        {(ios || android) && (
+        {/* Instrucciones manuales */}
+        {manualSteps && (
           <div className="install-modal-manual">
-            {canInstall && (
-              <p className="install-modal-manual-label">O sigue estos pasos manualmente:</p>
-            )}
-            {steps}
+            <p className="install-modal-manual-label">
+              {ios ? 'Sigue estos pasos:' : '¿No funciona el botón? Prueba manualmente:'}
+            </p>
+            {manualSteps}
           </div>
         )}
 
-        {/* Fallback para navegadores sin soporte PWA */}
-        {!canInstall && !ios && !android && (
+        {/* Fallback escritorio */}
+        {!ios && !android && (
           <p className="install-modal-desc">
             Abre Smorzar desde tu móvil para instalarla como app nativa.
           </p>
