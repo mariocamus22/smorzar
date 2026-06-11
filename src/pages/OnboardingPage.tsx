@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { markOnboardingDone } from '../lib/onboardingFlags'
 import { IconEsmorzar } from '../components/IconEsmorzar'
 import { SmorzarLogo } from '../components/SmorzarLogo'
@@ -38,6 +38,13 @@ type OnboardingShellProps = {
 function OnboardingShell({ step, children }: OnboardingShellProps) {
   const navigate = useNavigate()
   const touchStartX = useRef<number | null>(null)
+
+  // Bloquea el scroll del body mientras el onboarding está activo
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [])
   const [dragX, setDragX] = useState(0)
   const [dragging, setDragging] = useState(false)
 
