@@ -71,7 +71,7 @@ export function LoginPage() {
           : await supabase.auth.signInWithOtp({
               email: trimmed,
               options: {
-                emailRedirectTo: `${window.location.origin}/`,
+                emailRedirectTo: `${window.location.origin}/auth/callback`,
                 data: name.trim() ? { full_name: name.trim() } : undefined,
               },
             })

@@ -1196,3 +1196,46 @@
 .install-success-cta {
   width: 100%;
 }
+
+/* ─── Auth Callback Page ─────────────────────────────────────────── */
+.auth-callback-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: var(--space-6);
+}
+.auth-callback-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 360px;
+  text-align: center;
+}
+.auth-callback-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+.auth-callback-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-fg);
+  letter-spacing: -0.02em;
+}
+.auth-callback-desc {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
+  line-height: 1.6;
+}
+.auth-callback-cta {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+.auth-callback-hint {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-fg-subtle);
+}
