@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useInstallPrompt } from '../hooks/useInstallPrompt'
+import { useInstallPrompt, isInAppBrowser } from '../hooks/useInstallPrompt'
 import { InstallModal } from '../components/InstallModal'
 import type { User } from '@supabase/supabase-js'
 import { useAuth } from '../hooks/useAuth'
@@ -380,9 +380,17 @@ export function HomeList() {
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, triggerPrompt, canInstall } = useInstallPrompt()
 
-  async function handleInstall() {
-    // Siempre abrir primero el panel con instrucciones + CTA.
-    // El CTA del modal llamará a triggerInstallPrompt() para lanzar el prompt nativo.
+  function handleInstall() {
+    // En in-app browser (Outlook, Gmail…) beforeinstallprompt nunca llega:
+    // redirigir directamente a Chrome sin abrir el modal.
+    if (isInAppBrowser()) {
+      const url = window.location.href
+      const chromeUrl = /Android/.test(navigator.userAgent)
+        ? `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`
+        : url
+      window.location.href = chromeUrl
+      return
+    }
     setInstallOpen(true)
   }
 
