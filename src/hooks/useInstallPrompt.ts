@@ -95,7 +95,7 @@ export function useInstallPrompt() {
    * Devuelve true si el usuario acepta instalar, false si cancela o no hay soporte.
    */
   const triggerPrompt = useCallback(async (): Promise<boolean> => {
-    const prompt = await waitForPrompt(4000)
+    const prompt = await waitForPrompt(0)
     if (!prompt) return false
     await prompt.prompt()
     const { outcome } = await prompt.userChoice
