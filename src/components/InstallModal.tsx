@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { isIosSafari, isAndroidChrome, isRunningAsPwa } from '../hooks/useInstallPrompt'
 
 type Props = {
@@ -6,10 +6,19 @@ type Props = {
   onClose: () => void
   /** Lanza el prompt nativo de Chrome — lo controla el padre */
   onInstall: () => void
-  installing: boolean
 }
 
-export function InstallModal({ open, onClose, onInstall, installing }: Props) {
+export function InstallModal({ open, onClose, onInstall }: Props) {
+  const [installing, setInstalling] = useState(false)
+
+  async function handleInstall() {
+    setInstalling(true)
+    try {
+      await onInstall()
+    } finally {
+      setInstalling(false)
+    }
+  }
   const titleId = useId()
 
   if (!open) return null
@@ -51,7 +60,7 @@ export function InstallModal({ open, onClose, onInstall, installing }: Props) {
           <button
             type="button"
             className="btn btn-primary install-modal-cta"
-            onClick={onInstall}
+            onClick={handleInstall}
             disabled={installing}
           >
             {installing ? 'Abriendo instalador…' : 'Instalar ahora'}

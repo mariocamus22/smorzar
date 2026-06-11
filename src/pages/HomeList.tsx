@@ -570,7 +570,7 @@ export function HomeList() {
         onClose={dismissFirstAlmuerzoCelebration}
         levelLabel={profile?.level?.label}
       />
-      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} installing={installPhase === 'installing'} />
+      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} />
 
       <header className="home-top-bar">
         <div className="home-brand">
