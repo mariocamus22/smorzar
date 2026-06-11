@@ -1,0 +1,9 @@
+<svg viewBox="0 0 32 32" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="4" fill="#26231E"/>
+  <text x="17" y="24" text-anchor="middle"
+    font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+    font-size="21" font-weight="700" fill="#4A2C04">S</text>
+  <text x="16" y="23" text-anchor="middle"
+    font-family="'Playfair Display SC', 'Playfair Display', Georgia, serif"
+    font-size="21" font-weight="700" fill="#C97B0A">S</text>
+</svg>

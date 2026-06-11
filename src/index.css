@@ -2,6 +2,19 @@
  * Smorzar — tokens d’identitat (font única de veritat).
  * Warm minimal; acent cítric per a interacció i estats seleccionats.
  */
+
+/* ── Brand tokens (paleta oficial Smorzar) ── */
+:root {
+  --smz-bg:           #26231E;
+  --smz-bg-tile:      #2C2820;
+  --smz-tile-line:    #32302A;
+  --smz-frame:        #3A3228;
+  --smz-gold-shadow:  #4A2C04;
+  --smz-gold-dark:    #7A4A06;
+  --smz-gold:         #C97B0A;
+  --smz-gold-hi:      #E8960E;
+}
+
 :root {
   color-scheme: light;
 

@@ -2,14 +2,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// Configuración de Vite: React + PWA (manifest + service worker para instalación en móvil)
+// Configuración de Vite: React + PWA (service worker Workbox + manifest estático en public/)
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      /** HTML primero desde red: menos riesgo de que la PWA sirva un index antiguo tras un deploy. */
+      // El manifest lo servimos como archivo estático (public/manifest.json)
+      // para tener control total sobre él sin regenerarlo en cada build.
+      manifest: false,
       workbox: {
         clientsClaim: true,
         skipWaiting: true,
@@ -23,43 +25,6 @@ export default defineConfig({
               networkTimeoutSeconds: 4,
               expiration: { maxEntries: 16, maxAgeSeconds: 86400 },
             },
-          },
-        ],
-      },
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
-      manifest: {
-        name: 'Smorzar',
-        short_name: 'Smorzar',
-        description: 'Registro de tus almuerzos',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
-        display: 'standalone',
-        start_url: '/',
-        lang: 'es',
-        icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any',
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any',
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-          {
-            src: 'favicon.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
-            purpose: 'any',
           },
         ],
       },
