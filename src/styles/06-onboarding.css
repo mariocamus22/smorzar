@@ -1,14 +1,44 @@
 /* ——— Onboarding flow ——— */
 
+/* Ventana fija que recorta el track al 100vw */
+.onboarding-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Track horizontal: contiene pantalla actual + peek de la siguiente */
+.onboarding-track {
+  display: flex;
+  flex-direction: row;
+  width: 200vw;
+  height: 100%;
+  will-change: transform;
+}
+
 .onboarding-page {
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  flex-shrink: 0;
   height: 100dvh;
   max-height: 100dvh;
   overflow: hidden;
   padding: var(--space-5) var(--space-5) var(--space-6);
   background: var(--color-bg);
   gap: 0;
+}
+
+/* Peek: panel de la siguiente/anterior pantalla visible al arrastrar */
+.onboarding-peek {
+  width: 100vw;
+  flex-shrink: 0;
+  height: 100%;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
 }
 
 /* ——— Top bar ——— */

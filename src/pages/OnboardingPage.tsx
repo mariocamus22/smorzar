@@ -69,38 +69,55 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
     setDragging(false)
 
     if (delta < -60 && step === 1) {
+      // Anima el track hasta su posición final y luego navega
       setDragX(-window.innerWidth)
-      setTimeout(() => { setDragX(0); navigate('/onboarding/2') }, 220)
+      setTimeout(() => { setDragX(0); navigate('/onboarding/2') }, 240)
     } else if (delta > 60 && step === 2) {
       setDragX(window.innerWidth)
-      setTimeout(() => { setDragX(0); navigate('/onboarding/1') }, 220)
+      setTimeout(() => { setDragX(0); navigate('/onboarding/1') }, 240)
     } else {
       setDragX(0)
     }
   }
 
+  // Para step=2, el track empieza en -100vw y se ajusta con dragX
+  const baseOffset = step === 2 ? -window.innerWidth : 0
+  const trackX = baseOffset + dragX
+
   return (
-    <main
-      className="page onboarding-page"
-      aria-label={`Pantalla de bienvenida ${step} de 2`}
-      style={{
-        transform: `translateX(${dragX}px)`,
-        transition: dragging ? 'none' : 'transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-      }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      <div className="onboarding-topbar">
-        <div className="onboarding-brand">
-          <span className="onboarding-brand-logo">
-            <SmorzarLogo size={28} />
-          </span>
-          Smorzar
-        </div>
+    <div className="onboarding-viewport">
+      <div
+        className="onboarding-track"
+        style={{
+          transform: `translateX(${trackX}px)`,
+          transition: dragging ? 'none' : 'transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Peek izquierda: solo visible en step 2 al deslizar derecha */}
+        {step === 2 && <div className="onboarding-peek" aria-hidden />}
+
+        <main
+          className="page onboarding-page"
+          aria-label={`Pantalla de bienvenida ${step} de 2`}
+        >
+          <div className="onboarding-topbar">
+            <div className="onboarding-brand">
+              <span className="onboarding-brand-logo">
+                <SmorzarLogo size={28} />
+              </span>
+              Smorzar
+            </div>
+          </div>
+          {children}
+        </main>
+
+        {/* Peek derecha: solo visible en step 1 al deslizar izquierda */}
+        {step === 1 && <div className="onboarding-peek" aria-hidden />}
       </div>
-      {children}
-    </main>
+    </div>
   )
 }
 
