@@ -80,21 +80,16 @@ function levelHintText(progress: ReturnType<typeof nextLevelProgress>): string {
   return `Añade ${progress.remaining} almuerzos más para pasar al siguiente nivel.`
 }
 
-function IconCroissant() {
+function SmorzarLogo({ size = 36 }: { size?: number }) {
   return (
-    <svg
-      className="home-logo-svg"
-      width={44}
-      height={44}
-      viewBox="0 0 24 24"
+    <img
+      src="/assets/icons/icon-S-dark.svg"
+      width={size}
+      height={size}
+      alt=""
       aria-hidden
-    >
-      <g fill="currentColor" transform="translate(12 12) rotate(-22)">
-        <ellipse cx="-5.2" cy="0" rx="3.6" ry="5.2" />
-        <ellipse cx="0" cy="0" rx="4.2" ry="5.6" />
-        <ellipse cx="5.2" cy="0" rx="3.6" ry="5.2" />
-      </g>
-    </svg>
+      style={{ display: 'block' }}
+    />
   )
 }
 
@@ -559,7 +554,7 @@ export function HomeList() {
                 {[0,1,2,3].map(i => <span key={i} className="install-success-phone-dot" />)}
               </div>
               <div className="install-success-app-icon">
-                <IconCroissant />
+                <SmorzarLogo />
               </div>
               <p className="install-success-app-label">Smorzar</p>
               <div className="install-success-phone-dots install-success-phone-dots--bottom">
@@ -587,7 +582,7 @@ export function HomeList() {
 
       <header className="home-top-bar">
         <div className="home-brand">
-          <IconCroissant />
+          <SmorzarLogo />
           <span className="home-brand-name">Smorzar</span>
         </div>
         <div className="home-top-actions">

@@ -5,15 +5,16 @@ import { IconEsmorzar } from '../components/IconEsmorzar'
 
 /* ─── Shared icons ─────────────────────────────────────────────── */
 
-function IconCroissant() {
+function SmorzarLogo() {
   return (
-    <svg width={28} height={28} viewBox="0 0 24 24" aria-hidden>
-      <g fill="currentColor" transform="translate(12 12) rotate(-22)">
-        <ellipse cx="-5.2" cy="0" rx="3.6" ry="5.2" />
-        <ellipse cx="0" cy="0" rx="4.2" ry="5.6" />
-        <ellipse cx="5.2" cy="0" rx="3.6" ry="5.2" />
-      </g>
-    </svg>
+    <img
+      src="/assets/icons/icon-S-dark.svg"
+      width={28}
+      height={28}
+      alt=""
+      aria-hidden
+      style={{ display: 'block' }}
+    />
   )
 }
 
@@ -100,7 +101,7 @@ function OnboardingShell({ step, children }: OnboardingShellProps) {
       <div className="onboarding-topbar">
         <div className="onboarding-brand">
           <span className="onboarding-brand-logo">
-            <IconCroissant />
+            <SmorzarLogo />
           </span>
           Smorzar
         </div>
