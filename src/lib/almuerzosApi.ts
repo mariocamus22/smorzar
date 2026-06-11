@@ -203,10 +203,12 @@ export async function fetchProfile(userId: string): Promise<UserProfile | null> 
  * Se llama automáticamente tras autenticarse cuando el usuario introdujo su nombre en el login.
  */
 export async function upsertProfileDisplayName(userId: string, displayName: string): Promise<void> {
-  if (!displayName.trim()) return
+  const trimmed = displayName.trim()
+  if (!trimmed) return
+  enforceFieldLimits({ display_name: trimmed })
   const { error } = await supabase
     .from('profiles')
-    .upsert({ id: userId, display_name: displayName.trim() }, { onConflict: 'id', ignoreDuplicates: false })
+    .upsert({ id: userId, display_name: trimmed }, { onConflict: 'id', ignoreDuplicates: false })
   if (error) console.warn('[upsertProfileDisplayName]', error.message)
 }
 
@@ -256,15 +258,42 @@ export async function getAlmuerzo(id: string): Promise<Almuerzo | null> {
   return rowToAlmuerzo(data as Record<string, unknown>)
 }
 
+/** Tipos MIME permitidos para fotos (validación real del contenido, no solo extensión) */
+const ALLOWED_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+/** Tamaño máximo por foto: 10 MB */
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
+
+function validateFotoFile(file: File): void {
+  if (!ALLOWED_MIME_TYPES.has(file.type)) {
+    throw new Error(`Tipo de archivo no permitido: "${file.type}". Solo se admiten imágenes JPEG, PNG, WebP o GIF.`)
+  }
+  if (file.size > MAX_FILE_SIZE_BYTES) {
+    throw new Error(`La foto "${file.name}" supera el límite de 10 MB.`)
+  }
+  if (file.size === 0) {
+    throw new Error(`El archivo "${file.name}" está vacío.`)
+  }
+}
+
 async function uploadFotos(userId: string, almuerzoId: string, files: File[]): Promise<string[]> {
+  for (const file of files) {
+    validateFotoFile(file)
+  }
+  // Mapa de MIME → extensión canónica (no confiamos en el nombre del archivo del usuario)
+  const mimeToExt: Record<string, string> = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif',
+  }
   return Promise.all(
     files.map(async (file) => {
-      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
-      const safe = ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext) ? ext : 'jpg'
-      const path = `${userId}/${almuerzoId}/${uniqueFileId()}.${safe}`
+      const ext = mimeToExt[file.type] ?? 'jpg'
+      const path = `${userId}/${almuerzoId}/${uniqueFileId()}.${ext}`
       const { error } = await supabase.storage.from(BUCKET_FOTOS).upload(path, file, {
         cacheControl: '3600',
         upsert: false,
+        contentType: file.type,
       })
       if (error) throw error
       return path
@@ -297,6 +326,13 @@ export async function createAlmuerzo(input: AlmuerzoInput, newFiles: File[]): Pr
   if (newFiles.length > MAX_FOTOS_ALMUERZO) {
     throw new Error(`Máximo ${MAX_FOTOS_ALMUERZO} fotos`)
   }
+
+  enforceFieldLimits({
+    bar_name: input.bar_name,
+    bocadillo_name: input.bocadillo_name ?? null,
+    bocadillo_ingredients: input.bocadillo_ingredients ?? null,
+    review: input.review ?? null,
+  })
 
   const userId = await getActorUserIdForWrite()
 
@@ -357,6 +393,13 @@ export async function updateAlmuerzo(
   keepPaths: string[],
   newFiles: File[],
 ): Promise<void> {
+  enforceFieldLimits({
+    bar_name: input.bar_name,
+    bocadillo_name: input.bocadillo_name ?? null,
+    bocadillo_ingredients: input.bocadillo_ingredients ?? null,
+    review: input.review ?? null,
+  })
+
   const userId = await getActorUserIdForWrite()
 
   const { data: existingRow, error: existingErr } = await supabase
@@ -409,18 +452,38 @@ export async function updateAlmuerzo(
 }
 
 export async function deleteAlmuerzo(id: string): Promise<void> {
-  await getActorUserIdForWrite()
+  const userId = await getActorUserIdForWrite()
 
   const existing = await getAlmuerzo(id)
   if (!existing) return
   if (existing.photo_paths.length > 0) {
     await deleteFotosFromStorage(existing.photo_paths)
   }
-  const { error } = await supabase.from(TABLE).delete().eq('id', id)
+  // Filtramos siempre por user_id además de id: defensa en profundidad frente a
+  // fallos de RLS o llamadas directas que salten la comprobación de pertenencia.
+  const { error } = await supabase.from(TABLE).delete().eq('id', id).eq('user_id', userId)
   if (error) throw error
 }
 
 function emptyToNull(s: string): string | null {
   const t = s.trim()
   return t === '' ? null : t
+}
+
+/** Límites máximos de caracteres por campo (defensa antes de llegar a la BD) */
+const FIELD_MAX: Record<string, number> = {
+  bar_name: 200,
+  bocadillo_name: 300,
+  bocadillo_ingredients: 500,
+  review: 1000,
+  display_name: 100,
+}
+
+function enforceFieldLimits(fields: Record<string, string | null | undefined>): void {
+  for (const [key, max] of Object.entries(FIELD_MAX)) {
+    const val = fields[key]
+    if (typeof val === 'string' && val.length > max) {
+      throw new Error(`El campo "${key}" supera el máximo de ${max} caracteres.`)
+    }
+  }
 }
