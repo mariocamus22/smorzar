@@ -183,7 +183,7 @@ const MOCK_ENTRIES = [
     boc: 'Sepia a la plancha',
   },
   {
-    img: '/assets/onboarding-almussafes.jpg',
+    img: '/assets/onboarding-almussafes-2.jpg',
     bar: 'Bodega La Pascuala',
     loc: 'El Carmen, València',
     date: '28 de mayo de 2025',
