@@ -14,7 +14,7 @@ import type { Almuerzo, LevelRow, UserProfile } from '../types/almuerzo'
 import { FirstAlmuerzoCelebrationModal } from '../components/FirstAlmuerzoCelebrationModal'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 import { IconEsmorzar } from '../components/IconEsmorzar'
-import { SmorzarLogo, SmorzarLogoName } from '../components/SmorzarLogo'
+import { SmorzarLogo } from '../components/SmorzarLogo'
 
 function formatFechaLarga(isoDate: string): string {
   const d = new Date(`${isoDate}T12:00:00`)
