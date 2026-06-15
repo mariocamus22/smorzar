@@ -1,3 +1,45 @@
+/* ——— SW Update banner ——— */
+.sw-update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background-color: #1a3a1a;
+  border: 1px solid #2d6a2d;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.sw-update-text {
+  color: #a8d5a8;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.sw-update-btn {
+  flex-shrink: 0;
+  background-color: #2d6a2d;
+  color: #e8f5e8;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.85rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.sw-update-btn:hover:not(:disabled) {
+  background-color: #3a8a3a;
+}
+
+.sw-update-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ——— Home (Smorzar) ——— */
 .home-page {
   padding-bottom: 1rem;
