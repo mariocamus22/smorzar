@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useInstallPrompt, isInAppBrowser } from '../hooks/useInstallPrompt'
+import { useInstallPrompt, isInAppBrowser, chromeIntentUrl } from '../hooks/useInstallPrompt'
 import { InstallModal } from '../components/InstallModal'
 import type { User } from '@supabase/supabase-js'
 import { useAuth } from '../hooks/useAuth'
@@ -380,29 +380,38 @@ export function HomeList() {
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, triggerPrompt, canInstall } = useInstallPrompt()
 
-  function handleInstall() {
-    // En in-app browser (Outlook, Gmail…) beforeinstallprompt nunca llega:
-    // redirigir directamente a Chrome sin abrir el modal.
+  // Auto-muestra el prompt nativo la primera vez que el usuario llega a la home
+  // y beforeinstallprompt ya está disponible (o llega poco después de montar).
+  useEffect(() => {
+    if (isPwa || isInAppBrowser()) return
+    if (!canInstall) return
+    const STORAGE_KEY = 'smz_install_prompted'
+    if (sessionStorage.getItem(STORAGE_KEY)) return
+    sessionStorage.setItem(STORAGE_KEY, '1')
+    void triggerPrompt().then(ok => {
+      if (ok) setInstallPhase('success')
+    })
+  }, [canInstall, isPwa, triggerPrompt])
+
+  async function handleInstall() {
+    // In-app browser: redirigir directo a Chrome, sin esperar nada.
     if (isInAppBrowser()) {
-      const url = window.location.href
-      const chromeUrl = /Android/.test(navigator.userAgent)
-        ? `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`
-        : url
-      window.location.href = chromeUrl
+      window.location.href = chromeIntentUrl()
       return
     }
-    setInstallOpen(true)
-  }
-
-  async function triggerInstallPrompt() {
-    setInstallPhase('installing')
-    const ok = await triggerPrompt()
-    if (ok) {
-      setInstallOpen(false)
-      setInstallPhase('success')
-    } else {
-      setInstallPhase('idle')
+    // Si el prompt nativo está disponible, lanzarlo inmediatamente.
+    if (canInstall) {
+      setInstallPhase('installing')
+      const ok = await triggerPrompt()
+      if (ok) {
+        setInstallPhase('success')
+      } else {
+        setInstallPhase('idle')
+      }
+      return
     }
+    // Sin prompt nativo (iOS, escritorio sin soporte): mostrar instrucciones.
+    setInstallOpen(true)
   }
   const [levels, setLevels] = useState<LevelRow[]>([])
   const [levelsReady, setLevelsReady] = useState(false)
@@ -578,7 +587,7 @@ export function HomeList() {
         onClose={dismissFirstAlmuerzoCelebration}
         levelLabel={profile?.level?.label}
       />
-      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} onInstall={triggerInstallPrompt} canInstall={canInstall} />
+      <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
 
       <header className="home-top-bar">
         <div className="home-brand">
