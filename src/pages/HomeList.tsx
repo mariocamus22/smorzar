@@ -563,7 +563,7 @@ export function HomeList() {
                 {[0,1,2,3].map(i => <span key={i} className="install-success-phone-dot" />)}
               </div>
               <div className="install-success-app-icon">
-                <SmorzarLogoName size={72} />
+                <SmorzarLogo size={72} />
               </div>
               <p className="install-success-app-label">Smorzar</p>
               <div className="install-success-phone-dots install-success-phone-dots--bottom">
