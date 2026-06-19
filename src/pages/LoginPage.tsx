@@ -92,18 +92,25 @@ export function LoginPage() {
         if (error) {
           const msg = error.message?.toLowerCase() ?? ''
           if (msg.includes('already registered') || msg.includes('user already registered')) {
-            setErr('Ya existe una cuenta con ese correo.')
+            // Usuario ya existente: intentamos login directo con la contraseña proporcionada
+            const { error: loginErr } = await supabase.auth.signInWithPassword({ email: emailTrimmed, password })
+            if (!loginErr) return
+            setErr('Ya existe una cuenta con ese correo. Inicia sesión.')
             switchMode('login')
           } else {
             setErr(formatSupabaseError(error))
           }
           return
         }
-        // Si no hay sesión, Supabase requiere confirmar email — indicárselo al usuario
+        // Si session es null, Supabase requiere confirmación de email
         if (!data.session) {
-          setErr('Revisa tu correo y confirma tu cuenta para poder entrar.')
+          const { error: loginErr } = await supabase.auth.signInWithPassword({ email: emailTrimmed, password })
+          if (loginErr) {
+            setErr('Cuenta creada. Revisa tu correo para confirmarla antes de entrar.')
+          }
+          // Si login ok, onAuthStateChange actualiza la sesión y Navigate redirige
         }
-        // Si hay sesión, AuthProvider la detecta y Navigate redirige al home
+        // Si session ya existe desde signUp, onAuthStateChange actualiza y Navigate redirige
       }
     } catch (e) {
       setErr(formatSupabaseError(e))

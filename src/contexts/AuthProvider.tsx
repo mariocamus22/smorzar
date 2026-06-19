@@ -117,7 +117,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, s) => {
-      finishInit(s)
+      if (!mounted) return
+      if (!resolved) {
+        finishInit(s)
+      } else {
+        setSession(s)
+        setImpersonationState(impersonationForSession(s))
+        setInitError(null)
+      }
     })
 
     void supabase.auth
