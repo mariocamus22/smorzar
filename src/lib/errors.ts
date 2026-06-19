@@ -14,6 +14,9 @@ export function formatSupabaseError(err: unknown): string {
   if (msg.includes('network') || msg.includes('fetch') || msg.includes('failed to fetch')) {
     return 'No hay conexión o el servidor no responde. Comprueba tu red e inténtalo de nuevo.'
   }
+  if (msg.includes('error sending') || msg.includes('sending magic link') || msg.includes('sending confirmation') || msg.includes('email not sent')) {
+    return 'No hemos podido enviar el correo. Espera unos segundos e inténtalo de nuevo. Si el problema persiste, prueba con otra dirección de email.'
+  }
   if (code === '42501' || msg.includes('permission denied') || msg.includes('row-level security')) {
     return 'No tienes permiso para esta acción. Inicia sesión de nuevo.'
   }

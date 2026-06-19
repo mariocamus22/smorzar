@@ -28,8 +28,9 @@ function nomBocadilloResum(a: Almuerzo): string {
   return 'Sin bocadillo'
 }
 
-function firstName(user: User | null): string {
+function firstName(user: User | null, profile?: UserProfile | null): string {
   if (!user) return 'amigo'
+  if (profile?.display_name?.trim()) return profile.display_name.trim()
   const meta = user.user_metadata as Record<string, unknown> | undefined
   const full =
     typeof meta?.full_name === 'string'
@@ -516,7 +517,7 @@ export function HomeList() {
 
   const sinConfig = !hasSupabaseConfig()
   const showRecentViewToggle = !sinConfig && !loading && !error && items.length > 0
-  const nom = greetingHint ?? firstName(user)
+  const nom = greetingHint ?? firstName(user, profile)
   /** Contador de almuerzos: misma fuente que la lista (evita desfase con `profile.total_meals`). */
   const esmorzarCount = items.length
   /** Bares distintos (nombre normalizado): solo sube cuando aparece un bar nuevo en el historial. */

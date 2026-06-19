@@ -16,7 +16,7 @@ import './styles/entry.css'
  * Raíz de la app: rutas públicas (onboarding, login) y rutas protegidas (CRUD almuerzos).
  *
  * Flujo de primera visita:
- *   /onboarding/1 → /onboarding/2 → /login → (magic link) → /
+ *   /onboarding/1 → /onboarding/2 → /login → (email + contraseña) → /
  */
 function App() {
   return (

@@ -151,7 +151,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         let p = await fetchProfile(effectiveUserId)
         // Si el perfil no tiene nombre pero el usuario introdujo uno al registrarse,
-        // lo guardamos ahora (viene en user_metadata.full_name via signInWithOtp data).
+        // lo guardamos ahora (viene en user_metadata.full_name via signUp options.data).
         const metaName = (session?.user?.user_metadata?.full_name as string | undefined)?.trim()
         if (metaName && (!p?.display_name || !p.display_name.trim())) {
           await upsertProfileDisplayName(effectiveUserId, metaName)

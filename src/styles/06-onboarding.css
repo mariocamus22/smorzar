@@ -905,12 +905,60 @@
   margin-top: var(--space-2);
 }
 
-.login-disclaimer {
+/* ——— Contraseña con toggle mostrar/ocultar ——— */
+
+.login-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-password-wrap input {
+  flex: 1;
+  padding-right: 2.75rem;
+}
+
+.login-password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-fg-muted);
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.login-password-toggle:hover {
+  color: var(--color-fg);
+}
+
+/* ——— Switch login ↔ registro ——— */
+
+.login-mode-switch {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-fg-subtle);
   text-align: center;
   line-height: 1.5;
+}
+
+.login-mode-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.login-mode-btn:hover {
+  color: var(--color-accent-hover, var(--color-accent));
 }
 
 /* ——— Login: estado enviado ——— */
