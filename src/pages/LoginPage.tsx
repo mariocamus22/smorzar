@@ -11,7 +11,7 @@ type Mode = 'login' | 'signup'
 
 export function LoginPage() {
   const { session, loading, initError } = useAuth()
-  const [mode, setMode] = useState<Mode>('login')
+  const [mode, setMode] = useState<Mode>('signup')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
