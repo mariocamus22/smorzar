@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_AUTO_LOGIN_SHARED_PASSWORD?: string
   /** Clau del navegador (Maps JavaScript API + Places); restricció per referrers a GCP */
   readonly VITE_GOOGLE_MAPS_API_KEY?: string
+  readonly VITE_SENTRY_DSN?: string
 }
 
 interface ImportMeta {

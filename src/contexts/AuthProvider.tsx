@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
 import { fetchProfile, markPwaInstalled, updateAppVersion, upsertProfileDisplayName } from '../lib/almuerzosApi'
 import { isRunningAsPwa } from '../hooks/useInstallPrompt'
+import { clearSentryUser, setSentryUser } from '../lib/sentry'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
 import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
@@ -106,6 +107,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setImpersonationState(impersonationForSession(s))
       setSession(s)
       setLoading(false)
+      if (s?.user) setSentryUser(s.user.id, s.user.email)
+      else clearSentryUser()
     }
 
     const timeoutId = window.setTimeout(() => {
@@ -125,6 +128,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(s)
         setImpersonationState(impersonationForSession(s))
         setInitError(null)
+        if (s?.user) setSentryUser(s.user.id, s.user.email)
+        else clearSentryUser()
       }
     })
 
