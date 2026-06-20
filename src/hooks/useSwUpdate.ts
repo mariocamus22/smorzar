@@ -1,29 +1,34 @@
-import { useState, useCallback } from 'react'
+import { useEffect } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 /**
- * Detecta si hay una nueva versión del service worker esperando.
- * Cuando el usuario confirma, aplica la actualización y recarga la página.
+ * Aplica actualizaciones del service worker de forma transparente:
+ * cuando hay una versión nueva, espera a que el usuario mande la app
+ * a segundo plano (visibilitychange → hidden) y recarga en ese momento.
+ * El usuario no tiene que hacer nada — la próxima vez que abra la app
+ * ya tiene la versión nueva.
  */
 export function useSwUpdate() {
-  const [updating, setUpdating] = useState(false)
-
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(r) {
-      // Comprueba actualizaciones cada hora en segundo plano
-      if (r) {
-        setInterval(() => r.update(), 60 * 60 * 1000)
-      }
+      // Comprueba actualizaciones cada 30 minutos en segundo plano
+      if (r) setInterval(() => r.update(), 30 * 60 * 1000)
     },
   })
 
-  const applyUpdate = useCallback(async () => {
-    setUpdating(true)
-    await updateServiceWorker(true)
-  }, [updateServiceWorker])
+  useEffect(() => {
+    if (!needRefresh) return
 
-  return { needRefresh, updating, applyUpdate }
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        void updateServiceWorker(true)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [needRefresh, updateServiceWorker])
 }

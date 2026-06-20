@@ -381,7 +381,7 @@ export function HomeList() {
   const [installOpen, setInstallOpen] = useState(false)
   const [installPhase, setInstallPhase] = useState<'idle' | 'installing' | 'success'>('idle')
   const { isPwa, triggerPrompt, canInstall } = useInstallPrompt()
-  const { needRefresh, updating, applyUpdate } = useSwUpdate()
+  useSwUpdate()
 
   // Auto-muestra el prompt nativo la primera vez que el usuario llega a la home
   // y beforeinstallprompt ya está disponible (o llega poco después de montar).
@@ -592,19 +592,6 @@ export function HomeList() {
       />
       <InstallModal open={installOpen} onClose={() => setInstallOpen(false)} />
 
-      {/* Banner de actualización — solo visible cuando hay una nueva versión */}
-      {needRefresh && (
-        <div className="sw-update-banner" role="status">
-          <span className="sw-update-text">🆕 Hay una nueva versión disponible</span>
-          <button
-            className="sw-update-btn"
-            onClick={applyUpdate}
-            disabled={updating}
-          >
-            {updating ? 'Actualizando…' : 'Actualizar'}
-          </button>
-        </div>
-      )}
 
       <header className="home-top-bar">
         <div className="home-brand">
