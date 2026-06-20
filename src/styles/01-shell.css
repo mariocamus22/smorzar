@@ -204,6 +204,12 @@
   color: var(--color-error-text);
 }
 
+.banner-info {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #93c5fd;
+}
+
 
 .maps-debug-panel {
   text-align: left;

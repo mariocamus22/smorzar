@@ -8,6 +8,7 @@ import { HomeList } from './pages/HomeList'
 import { AlmuerzoForm } from './pages/AlmuerzoForm'
 import { AlmuerzoDetail } from './pages/AlmuerzoDetail'
 import { LoginPage } from './pages/LoginPage'
+import { SetPasswordPage } from './pages/SetPasswordPage'
 import { OnboardingScreen1, OnboardingScreen2 } from './pages/OnboardingPage'
 import { AuthCallbackPage } from './pages/AuthCallbackPage'
 import './styles/entry.css'
@@ -31,6 +32,7 @@ function App() {
             <Route path="/onboarding/1" element={<OnboardingScreen1 />} />
             <Route path="/onboarding/2" element={<OnboardingScreen2 />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/set-password" element={<SetPasswordPage />} />
             <Route path="/auth/callback" element={<AuthCallbackPage />} />
             {/* Rutas protegidas */}
             <Route element={<RequireAuth />}>

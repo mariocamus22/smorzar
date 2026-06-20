@@ -7,7 +7,7 @@ import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 
-type Mode = 'login' | 'signup'
+type Mode = 'login' | 'signup' | 'reset'
 
 export function LoginPage() {
   const { session, loading, initError } = useAuth()
@@ -17,6 +17,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [err, setErr] = useState<string | null>(null)
+  const [info, setInfo] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   if (!hasSupabaseConfig()) {
@@ -51,14 +52,36 @@ export function LoginPage() {
   function switchMode(m: Mode) {
     setMode(m)
     setErr(null)
+    setInfo(null)
     setPassword('')
   }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     setErr(null)
+    setInfo(null)
     const emailTrimmed = email.trim().toLowerCase()
     if (!emailTrimmed) { setErr('Escribe tu correo electrónico.'); return }
+
+    if (mode === 'reset') {
+      setSubmitting(true)
+      try {
+        const { error } = await supabase.auth.resetPasswordForEmail(emailTrimmed, {
+          redirectTo: `${window.location.origin}/set-password`,
+        })
+        if (error) {
+          setErr(formatSupabaseError(error))
+        } else {
+          setInfo('Te hemos enviado un enlace para establecer tu contraseña. Revisa tu correo.')
+        }
+      } catch (e) {
+        setErr(formatSupabaseError(e))
+      } finally {
+        setSubmitting(false)
+      }
+      return
+    }
+
     if (!password) { setErr('Escribe tu contraseña.'); return }
     if (mode === 'signup' && !name.trim()) { setErr('Escribe tu nombre.'); return }
     if (mode === 'signup' && password.length < 6) { setErr('La contraseña debe tener al menos 6 caracteres.'); return }
@@ -108,9 +131,7 @@ export function LoginPage() {
           if (loginErr) {
             setErr('Cuenta creada. Revisa tu correo para confirmarla antes de entrar.')
           }
-          // Si login ok, onAuthStateChange actualiza la sesión y Navigate redirige
         }
-        // Si session ya existe desde signUp, onAuthStateChange actualiza y Navigate redirige
       }
     } catch (e) {
       setErr(formatSupabaseError(e))
@@ -119,21 +140,27 @@ export function LoginPage() {
     }
   }
 
+  const titles: Record<Mode, string> = {
+    login: 'Accede a Smorzar',
+    signup: 'Crea tu cuenta',
+    reset: 'Recuperar acceso',
+  }
+  const subtitles: Record<Mode, string> = {
+    login: 'Entra con tu correo y contraseña.',
+    signup: 'Regístrate para empezar a registrar tus almuerzos.',
+    reset: 'Te enviaremos un enlace para que puedas establecer tu contraseña.',
+  }
+
   return (
     <main id={MAIN_CONTENT_ID} className="login-page">
       <div className="login-hero">
-        <h1 className="login-title">
-          {mode === 'login' ? 'Accede a Smorzar' : 'Crea tu cuenta'}
-        </h1>
-        <p className="login-subtitle">
-          {mode === 'login'
-            ? 'Entra con tu correo y contraseña.'
-            : 'Regístrate para empezar a registrar tus almuerzos.'}
-        </p>
+        <h1 className="login-title">{titles[mode]}</h1>
+        <p className="login-subtitle">{subtitles[mode]}</p>
       </div>
 
       <form className="login-form" onSubmit={onSubmit} noValidate>
         {err && <p className="banner banner-error" role="alert">{err}</p>}
+        {info && <p className="banner banner-info" role="status">{info}</p>}
 
         {mode === 'signup' && (
           <label className="field">
@@ -160,36 +187,50 @@ export function LoginPage() {
           />
         </label>
 
-        <label className="field">
-          <span>Contraseña</span>
-          <div className="login-password-wrap">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={mode === 'signup' ? 'Mínimo 6 caracteres' : '••••••••'}
-              required
-            />
-            <button
-              type="button"
-              className="login-password-toggle"
-              onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-            >
-              {showPassword ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              )}
-            </button>
-          </div>
-        </label>
+        {mode !== 'reset' && (
+          <label className="field">
+            <span>Contraseña</span>
+            <div className="login-password-wrap">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={mode === 'signup' ? 'Mínimo 6 caracteres' : '••••••••'}
+                required
+              />
+              <button
+                type="button"
+                className="login-password-toggle"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+              >
+                {showPassword ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                )}
+              </button>
+            </div>
+          </label>
+        )}
+
+        {mode === 'login' && (
+          <button
+            type="button"
+            className="login-forgot-btn"
+            onClick={() => switchMode('reset')}
+          >
+            ¿Olvidaste tu contraseña?
+          </button>
+        )}
 
         <button type="submit" className="btn btn-primary login-cta" disabled={submitting}>
           {submitting
-            ? (mode === 'login' ? 'Entrando…' : 'Creando cuenta…')
-            : (mode === 'login' ? 'Entrar' : 'Crear cuenta')}
+            ? '…'
+            : mode === 'login' ? 'Entrar'
+            : mode === 'signup' ? 'Crear cuenta'
+            : 'Enviar enlace'}
         </button>
 
         <p className="login-mode-switch">

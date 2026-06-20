@@ -51,12 +51,16 @@ export function AuthCallbackPage() {
         if (!error) { navigate('/', { replace: true }); return }
       }
 
-      // Caso 3: token_hash (email OTP verification)
+      // Caso 3: token_hash (email OTP verification o password recovery)
       const tokenHash = params.get('token_hash')
       const type = params.get('type') as 'signup' | 'recovery' | 'email' | null
       if (tokenHash && type) {
         const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type })
-        if (!error) { navigate('/', { replace: true }); return }
+        if (!error) {
+          const dest = type === 'recovery' ? '/set-password' : '/'
+          navigate(dest, { replace: true })
+          return
+        }
       }
 
       // Si ya hay sesión activa, redirigir directamente

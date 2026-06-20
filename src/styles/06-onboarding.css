@@ -961,6 +961,23 @@
   color: var(--color-accent-hover, var(--color-accent));
 }
 
+.login-forgot-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-fg-subtle);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: calc(var(--space-1) * -1);
+}
+
+.login-forgot-btn:hover {
+  color: var(--color-fg-muted);
+}
+
 /* ——— Login: estado enviado ——— */
 
 .login-sent {
