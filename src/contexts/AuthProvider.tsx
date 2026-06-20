@@ -1,6 +1,7 @@
 import type { Session } from '@supabase/supabase-js'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
-import { fetchProfile, upsertProfileDisplayName } from '../lib/almuerzosApi'
+import { fetchProfile, markPwaInstalled, upsertProfileDisplayName } from '../lib/almuerzosApi'
+import { isRunningAsPwa } from '../hooks/useInstallPrompt'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
 import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
@@ -193,6 +194,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       void supabase.removeChannel(channel)
     }
   }, [effectiveUserId])
+
+  // Detecta instalación PWA y la registra en profiles (solo una vez por usuario)
+  useEffect(() => {
+    if (!effectiveUserId || profile?.pwa_installed_at) return
+
+    // Si ya está corriendo como PWA al cargar
+    if (isRunningAsPwa()) {
+      void markPwaInstalled(effectiveUserId)
+      return
+    }
+
+    // Si instala la PWA mientras tiene la sesión abierta
+    function onInstalled() {
+      void markPwaInstalled(effectiveUserId!)
+    }
+    window.addEventListener('appinstalled', onInstalled)
+    return () => window.removeEventListener('appinstalled', onInstalled)
+  }, [effectiveUserId, profile?.pwa_installed_at])
 
   const isImpersonating = Boolean(isSupportAdmin && impersonation && user && impersonation.id !== user.id)
 

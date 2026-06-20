@@ -81,4 +81,5 @@ export type UserProfile = {
   level_id: number
   updated_at: string
   level: LevelRow | null
+  pwa_installed_at: string | null
 }

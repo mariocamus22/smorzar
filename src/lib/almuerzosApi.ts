@@ -154,6 +154,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     level_id: Number(row.level_id),
     updated_at: String(row.updated_at),
     level,
+    pwa_installed_at: row.pwa_installed_at != null ? String(row.pwa_installed_at) : null,
   }
 }
 
@@ -189,7 +190,7 @@ export async function listAllMealOptions(): Promise<MealOptionRow[]> {
 export async function fetchProfile(userId: string): Promise<UserProfile | null> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, display_name, total_meals, level_id, updated_at, level:levels ( id, code, label, min_meals )')
+    .select('id, display_name, total_meals, level_id, updated_at, pwa_installed_at, level:levels ( id, code, label, min_meals )')
     .eq('id', userId)
     .maybeSingle()
 
@@ -210,6 +211,14 @@ export async function upsertProfileDisplayName(userId: string, displayName: stri
     .from('profiles')
     .upsert({ id: userId, display_name: trimmed }, { onConflict: 'id', ignoreDuplicates: false })
   if (error) console.warn('[upsertProfileDisplayName]', error.message)
+}
+
+/** Marca la fecha de instalación PWA si aún no está registrada. */
+export async function markPwaInstalled(userId: string): Promise<void> {
+  const { error } = await supabase
+    .from('profiles')
+    .upsert({ id: userId, pwa_installed_at: new Date().toISOString() }, { onConflict: 'id', ignoreDuplicates: false })
+  if (error) console.warn('[markPwaInstalled]', error.message)
 }
 
 /** Umbrales de niveles (público, ordenados por min_meals ascendente). */
