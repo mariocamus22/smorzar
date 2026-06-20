@@ -5,6 +5,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 // Configuración de Vite: React + PWA (service worker Workbox + manifest estático en public/)
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+  },
   plugins: [
     react(),
     VitePWA({

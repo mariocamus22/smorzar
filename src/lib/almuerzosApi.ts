@@ -213,6 +213,15 @@ export async function upsertProfileDisplayName(userId: string, displayName: stri
   if (error) console.warn('[upsertProfileDisplayName]', error.message)
 }
 
+/** Actualiza la versión de la app que tiene el usuario en su perfil. */
+export async function updateAppVersion(userId: string): Promise<void> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ app_version: __APP_VERSION__ })
+    .eq('id', userId)
+  if (error) console.warn('[updateAppVersion]', error.message)
+}
+
 /** Marca la fecha de instalación PWA si aún no está registrada. */
 export async function markPwaInstalled(userId: string): Promise<void> {
   const { error } = await supabase

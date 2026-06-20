@@ -1,6 +1,6 @@
 import type { Session } from '@supabase/supabase-js'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
-import { fetchProfile, markPwaInstalled, upsertProfileDisplayName } from '../lib/almuerzosApi'
+import { fetchProfile, markPwaInstalled, updateAppVersion, upsertProfileDisplayName } from '../lib/almuerzosApi'
 import { isRunningAsPwa } from '../hooks/useInstallPrompt'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
 import { hasSupabaseConfig } from '../lib/env'
@@ -165,6 +165,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await upsertProfileDisplayName(effectiveUserId, metaName)
           p = await fetchProfile(effectiveUserId)
         }
+        // Registra la versión del app que tiene cargada el usuario en cada sesión
+        void updateAppVersion(effectiveUserId)
         if (!cancelled) setProfile(p)
       } finally {
         if (!cancelled) setProfileLoading(false)
