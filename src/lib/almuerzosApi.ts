@@ -217,7 +217,8 @@ export async function upsertProfileDisplayName(userId: string, displayName: stri
 export async function markPwaInstalled(userId: string): Promise<void> {
   const { error } = await supabase
     .from('profiles')
-    .upsert({ id: userId, pwa_installed_at: new Date().toISOString() }, { onConflict: 'id', ignoreDuplicates: false })
+    .update({ pwa_installed_at: new Date().toISOString() })
+    .eq('id', userId)
   if (error) console.warn('[markPwaInstalled]', error.message)
 }
 

@@ -195,23 +195,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [effectiveUserId])
 
-  // Detecta instalación PWA y la registra en profiles (solo una vez por usuario)
+  // Detecta instalación PWA y la registra en profiles (solo una vez por usuario).
+  // Espera a que el perfil esté cargado (profileLoading=false) para no escribir
+  // antes de saber si ya tenía pwa_installed_at.
   useEffect(() => {
-    if (!effectiveUserId || profile?.pwa_installed_at) return
+    if (!effectiveUserId || profileLoading || profile?.pwa_installed_at) return
 
-    // Si ya está corriendo como PWA al cargar
     if (isRunningAsPwa()) {
       void markPwaInstalled(effectiveUserId)
       return
     }
 
-    // Si instala la PWA mientras tiene la sesión abierta
     function onInstalled() {
       void markPwaInstalled(effectiveUserId!)
     }
     window.addEventListener('appinstalled', onInstalled)
     return () => window.removeEventListener('appinstalled', onInstalled)
-  }, [effectiveUserId, profile?.pwa_installed_at])
+  }, [effectiveUserId, profileLoading, profile?.pwa_installed_at])
 
   const isImpersonating = Boolean(isSupportAdmin && impersonation && user && impersonation.id !== user.id)
 
