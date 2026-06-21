@@ -344,19 +344,28 @@
 
 .photo-previews {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.5rem;
   margin: 0.5rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.photo-previews::-webkit-scrollbar {
+  display: none;
 }
 
 .photo-preview-wrap {
   position: relative;
-  width: 96px;
+  flex-shrink: 0;
+  width: 72px;
 }
 
 .photo-preview-wrap .photo-thumb {
-  width: 96px;
-  height: 96px;
+  width: 72px;
+  height: 72px;
 }
 
 .btn-remove-photo {
