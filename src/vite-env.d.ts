@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   /** Clau del navegador (Maps JavaScript API + Places); restricció per referrers a GCP */
   readonly VITE_GOOGLE_MAPS_API_KEY?: string
   readonly VITE_SENTRY_DSN?: string
+  readonly VITE_AMPLITUDE_API_KEY?: string
 }
 
 interface ImportMeta {

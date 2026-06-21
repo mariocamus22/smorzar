@@ -1,8 +1,9 @@
 import type { Session } from '@supabase/supabase-js'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { fetchProfile, markPwaInstalled, updateAppVersion, upsertProfileDisplayName } from '../lib/almuerzosApi'
 import { isRunningAsPwa } from '../hooks/useInstallPrompt'
 import { clearSentryUser, setSentryUser } from '../lib/sentry'
+import { clearAmplitudeUser, setAmplitudeUser, trackAppInstalled, trackAppOpened } from '../lib/amplitude'
 import { setEffectiveUserIdForReads } from '../lib/effectiveUserStore'
 import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
@@ -48,6 +49,7 @@ function impersonationForSession(session: Session | null): Impersonation | null 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthState['session']>(null)
   const [loading, setLoading] = useState(true)
+  const appOpenedTracked = useRef(false)
   const [initError, setInitError] = useState<string | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [profileLoading, setProfileLoading] = useState(false)
@@ -172,7 +174,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         // Registra la versión del app que tiene cargada el usuario en cada sesión
         void updateAppVersion(effectiveUserId)
-        if (!cancelled) setProfile(p)
+        if (!cancelled) {
+          setProfile(p)
+          setAmplitudeUser(effectiveUserId, {
+            email: session?.user?.email,
+            registration_date: session?.user?.created_at?.split('T')[0],
+            total_lunches_created: p?.total_meals ?? 0,
+            user_level: (p?.level?.code as 'beginner' | 'regular' | 'expert' | undefined) ?? undefined,
+          })
+          if (!appOpenedTracked.current) {
+            appOpenedTracked.current = true
+            trackAppOpened()
+          }
+        }
       } finally {
         if (!cancelled) setProfileLoading(false)
       }
@@ -210,11 +224,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (isRunningAsPwa()) {
       void markPwaInstalled(effectiveUserId)
+      trackAppInstalled()
       return
     }
 
     function onInstalled() {
       void markPwaInstalled(effectiveUserId!)
+      trackAppInstalled()
     }
     window.addEventListener('appinstalled', onInstalled)
     return () => window.removeEventListener('appinstalled', onInstalled)
@@ -253,6 +269,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           /* ignore */
         }
         setImpersonationState(null)
+        appOpenedTracked.current = false
+        clearAmplitudeUser()
         await supabase.auth.signOut()
         setProfile(null)
       },

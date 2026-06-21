@@ -5,6 +5,7 @@ import { formatSupabaseError } from '../lib/errors'
 import { autoLoginSharedPassword, isAutoLoginEmail } from '../lib/autoLogin'
 import { hasSupabaseConfig } from '../lib/env'
 import { supabase } from '../lib/supabaseClient'
+import { trackUserRegistered } from '../lib/amplitude'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 
 type Mode = 'login' | 'signup' | 'reset'
@@ -125,6 +126,7 @@ export function LoginPage() {
           }
           return
         }
+        trackUserRegistered()
         // Si session es null, Supabase requiere confirmación de email
         if (!data.session) {
           const { error: loginErr } = await supabase.auth.signInWithPassword({ email: emailTrimmed, password })

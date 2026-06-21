@@ -33,6 +33,7 @@ import { formatSupabaseError } from '../lib/errors'
 import { scrollAppViewportToTop } from '../lib/scrollAppViewport'
 import { barLocationLine } from '../lib/barLocation'
 import { hasSupabaseConfig } from '../lib/env'
+import { trackLunchCreated } from '../lib/amplitude'
 import {
   beverageSelectLabel,
   coffeeSelectLabel,
@@ -1011,6 +1012,7 @@ export function AlmuerzoForm({ mode }: Props) {
           celebrateFirstAlmuerzo = (p?.total_meals ?? -1) === 0
         }
         await createAlmuerzo(input, newFiles)
+        trackLunchCreated(barName.trim())
         navigate(
           '/',
           celebrateFirstAlmuerzo

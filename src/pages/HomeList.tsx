@@ -12,6 +12,7 @@ import { barLocationLine } from '../lib/barLocation'
 import { hasSupabaseConfig } from '../lib/env'
 import type { Almuerzo, LevelRow, UserProfile } from '../types/almuerzo'
 import { FirstAlmuerzoCelebrationModal } from '../components/FirstAlmuerzoCelebrationModal'
+import { trackCreateLunchClicked } from '../lib/amplitude'
 import { MAIN_CONTENT_ID } from '../components/SkipToMainContent'
 import { IconEsmorzar } from '../components/IconEsmorzar'
 import { SmorzarLogo } from '../components/SmorzarLogo'
@@ -697,7 +698,7 @@ export function HomeList() {
           almuerzos.
         </p>
       ) : (
-        <Link to="/nuevo" className="btn btn-primary home-cta">
+        <Link to="/nuevo" className="btn btn-primary home-cta" onClick={() => trackCreateLunchClicked('home')}>
           <span className="home-cta-icon" aria-hidden>
             +
           </span>
