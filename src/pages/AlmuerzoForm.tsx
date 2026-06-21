@@ -1460,31 +1460,6 @@ export function AlmuerzoForm({ mode }: Props) {
                 </div>
               </div>
 
-              <div ref={step5ReviewBlockRef} className="form-step5-review-block">
-                <label className="form-step5-review-label" htmlFor="form-step5-review">
-                  Nota personal <span className="muted">(opcional)</span>
-                </label>
-                <p id={notaPersonalHintId} className="form-step5-review-hint">
-                  Este comentario es privado y solo lo podrás ver tú.
-                </p>
-                <textarea
-                  ref={step5ReviewTextareaRef}
-                  id="form-step5-review"
-                  className="form-step5-review-textarea"
-                  value={review}
-                  onChange={(e) => {
-                    const raw = e.target.value
-                    const next =
-                      raw.length > 0 ? raw.charAt(0).toLocaleUpperCase('es') + raw.slice(1) : raw
-                    setReview(next)
-                  }}
-                  onFocus={scrollNotaPersonalIntoView}
-                  rows={4}
-                  placeholder={NOTA_PERSONAL_PLACEHOLDER}
-                  aria-describedby={notaPersonalHintId}
-                />
-              </div>
-
               <div className="form-step5-price-block">
                 <label className="form-step5-review-label" htmlFor="form-step5-price">
                   Precio <span className="muted">(opcional)</span>
@@ -1575,6 +1550,31 @@ export function AlmuerzoForm({ mode }: Props) {
                   </div>
                 </div>
               )}
+
+              <div ref={step5ReviewBlockRef} className="form-step5-review-block">
+                <label className="form-step5-review-label" htmlFor="form-step5-review">
+                  Nota personal <span className="muted">(opcional)</span>
+                </label>
+                <p id={notaPersonalHintId} className="form-step5-review-hint">
+                  Este comentario es privado y solo lo podrás ver tú.
+                </p>
+                <textarea
+                  ref={step5ReviewTextareaRef}
+                  id="form-step5-review"
+                  className="form-step5-review-textarea"
+                  value={review}
+                  onChange={(e) => {
+                    const raw = e.target.value
+                    const next =
+                      raw.length > 0 ? raw.charAt(0).toLocaleUpperCase('es') + raw.slice(1) : raw
+                    setReview(next)
+                  }}
+                  onFocus={scrollNotaPersonalIntoView}
+                  rows={4}
+                  placeholder={NOTA_PERSONAL_PLACEHOLDER}
+                  aria-describedby={notaPersonalHintId}
+                />
+              </div>
 
             </div>
 
