@@ -20,9 +20,9 @@ export function InstallModal({ open, onClose }: Props) {
 
   const manualSteps = ios ? (
     <ol className="install-modal-steps">
-      <li>Pulsa el icono <strong>Compartir ↑</strong> en la barra inferior de Safari</li>
-      <li>Selecciona <strong>«Añadir a pantalla de inicio»</strong></li>
-      <li>Pulsa <strong>«Añadir»</strong> para confirmar</li>
+      <li>Pulsa el icono <strong>⬆️</strong> (esquina superior derecha)</li>
+      <li>Selecciona <strong>«Agregar a Inicio»</strong></li>
+      <li>Pulsa <strong>«Agregar»</strong> para confirmar</li>
     </ol>
   ) : android ? (
     <ol className="install-modal-steps">
